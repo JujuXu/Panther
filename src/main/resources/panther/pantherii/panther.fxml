@@ -97,7 +97,7 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Text>
-                        <Text fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="000">
+                        <Text fx:id="textServo1" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="000">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -116,7 +116,7 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Text>
-                        <Text fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="000">
+                        <Text fx:id="textServo2" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="000">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -135,7 +135,7 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Text>
-                        <Text fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="000">
+                        <Text fx:id="textServo3" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="000">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -154,7 +154,7 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Text>
-                        <Text fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="000">
+                        <Text fx:id="textServo4" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="000">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -173,7 +173,7 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Text>
-                        <Text fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="000">
+                        <Text fx:id="textServo5" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="000">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -192,7 +192,7 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Text>
-                        <Text fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="000">
+                        <Text fx:id="textServo6" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="000">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -229,17 +229,17 @@
                   <QuadCurve fx:id="frontProximity" controlX="25.0" controlY="-10.0" endX="50.0" fill="RED" layoutX="25.0" layoutY="17.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
                   <QuadCurve fx:id="leftProximity" controlX="-10.0" controlY="25.0" endY="50.0" fill="RED" layoutX="20.0" layoutY="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
                   <QuadCurve fx:id="rightProximity" controlX="10.0" controlY="25.0" endY="50.0" fill="RED" layoutX="80.0" layoutY="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                  <Text fx:id="textLeftProximity" fill="WHITE" layoutX="-30.0" layoutY="55.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="100 cm">
+                  <Text fx:id="textLeftProximity" fill="WHITE" layoutX="-30.0" layoutY="55.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="0 cm">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Text>
-                  <Text fx:id="textFrontProximity" fill="WHITE" layoutX="30.0" layoutY="5.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="100 cm" textAlignment="CENTER">
+                  <Text fx:id="textFrontProximity" fill="WHITE" layoutX="30.0" layoutY="5.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="0 cm" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Text>
-                  <Text fx:id="textRightProximity" fill="WHITE" layoutX="90.0" layoutY="54.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="100 cm">
+                  <Text fx:id="textRightProximity" fill="WHITE" layoutX="90.0" layoutY="54.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="0 cm">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>

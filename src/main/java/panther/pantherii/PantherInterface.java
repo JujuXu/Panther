@@ -60,14 +60,4 @@ public class PantherInterface extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
-    /**
-     * Writes a message to the console.
-     *
-     * @param str the message to write
-     */
-    public static void sendLog(String str) {
-        System.out.print(java.time.LocalTime.now().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm:ss:SSS")) + " > ");
-        System.out.println(str);
-    }
 }

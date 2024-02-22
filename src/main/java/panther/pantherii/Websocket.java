@@ -1,18 +1,27 @@
 package panther.pantherii;
 
 import java.io.*;
+import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Websocket extends Thread {
+    private InputStream wsIN;
+    private OutputStream wsOUT;
+
+    ArrayList<Integer> stream = new ArrayList<>();
+    ArrayList<String> data = new ArrayList<>();
+
     @Override
     public void run() {
         try {
@@ -24,23 +33,24 @@ public class Websocket extends Thread {
 
     public void websocket() throws IOException, NoSuchAlgorithmException {
         int port = 80;
-        String ipv4 = "192.168.1.157";
+        String lh = Inet4Address.getLocalHost().toString();
+        String ipv4 = lh.substring(lh.indexOf('/')+1);
 
-        System.out.println("Starting WebSocket server...");
+        Main.sendLog("Starting WebSocket server on port "+port);
 
         ServerSocket serverSocket = new ServerSocket(80);
 
         if (!serverSocket.isClosed()) {
-            System.out.println("WebSocket server started on " + ipv4 + ":" + port);
+            Main.sendLog("WebSocket server started on " + ipv4 + ":" + port);
 
-            System.out.println("Awaiting client...");
+            Main.sendLog("Awaiting PantherII to connect...");
 
             Socket client = serverSocket.accept();
             System.out.println(client.getInetAddress());
 
-            InputStream in = client.getInputStream();
-            OutputStream out = client.getOutputStream();
-            Scanner scan = new Scanner(in, "UTF-8");
+            wsIN = client.getInputStream();
+            wsOUT = client.getOutputStream();
+            Scanner scan = new Scanner(wsIN, "UTF-8");
 
             String data = scan.useDelimiter("\\r\\n\\r\\n").next();
             Matcher get = Pattern.compile("^GET").matcher(data);
@@ -54,49 +64,32 @@ public class Websocket extends Thread {
                         + "Sec-WebSocket-Accept: "
                         + Base64.getEncoder().encodeToString(MessageDigest.getInstance("SHA-1").digest((match.group(1) + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11").getBytes("UTF-8")))
                         + "\r\n\r\n").getBytes("UTF-8");
-                out.write(response, 0, response.length);
-                out.flush();
+                wsOUT.write(response, 0, response.length);
+                wsOUT.flush();
 
-                System.out.println("Connection established !");
+                Main.sendLog("Connection to PantherII established !");
             }
 
-            link(serverSocket,in,out);
+            readWS();
         }
     }
 
-    private void link(ServerSocket ser, InputStream in, OutputStream out) throws IOException, NoSuchAlgorithmException {
+    private void readWS() throws IOException {
         boolean run = true;
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(in));
-
-        ArrayList<Integer> stream = new ArrayList<>();
+        BufferedReader br = new BufferedReader(new InputStreamReader(wsIN));
 
         while (run) {
-            int brr = br.read();
-            System.out.println(brr);
-            if(brr == -1) {
-                ser.close();
-                websocket();
-                return;
-            }
-
             if(br.ready()) {
-
+                int brr = br.read();
                 stream.add(brr);
-
-                    /*byte[] a = {(byte) 129, (byte) 134, (byte) 167, (byte) 225, (byte) 225, (byte) 210, (byte) 198, (byte) 131, (byte) 130, (byte) 182, (byte) 194, (byte) 135};
-                    out.write(a);
-                    out.flush();*/
             }
 
             if(!stream.isEmpty()) {
-                //System.out.println(stream);
 
                 if(stream.get(0) == 65533 || stream.get(0) == 0) {
                     stream.remove(0);
                 } else if (stream.get(stream.size()-1) == 65533) {
-                    //System.out.println(stream);
-                    //System.out.println(stream.size());
                     StringBuilder msg = new StringBuilder();
 
                     int size = stream.size()-1;
@@ -106,15 +99,28 @@ public class Websocket extends Thread {
                         stream.remove(0);
                     }
 
+                    data.add(msg.toString());
                     System.out.println(msg);
-                    out.write(encodeString("C'est nickel ça !"));
-                    out.flush();
                 }
             }
         }
     }
 
-    public byte[] encodeString(String message) {
+    public void sendData(String str) throws IOException {
+        if(wsOUT!=null) {
+            wsOUT.write(encodeString(str));
+            wsOUT.flush();
+        }
+    }
+
+    public ArrayList<String> getData() {
+        ArrayList<String> ddata = data;
+        data = new ArrayList<>();
+
+        return ddata;
+    }
+
+    private byte[] encodeString(String message) {
         byte[] rawData = message.getBytes(StandardCharsets.UTF_8);
 
         int headerLength;

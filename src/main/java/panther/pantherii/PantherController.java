@@ -1,5 +1,6 @@
 package panther.pantherii;
 
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Slider;
@@ -12,6 +13,10 @@ import javafx.scene.shape.QuadCurve;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * This class is the controller for the JavaFX GUI of the Panther robot. It is responsible for
  * communicating with the robot and updating the GUI elements with sensor readings and user input.
@@ -19,13 +24,22 @@ import javafx.scene.text.Text;
 public class PantherController {
     private int resolutionSliders = 20;
 
+    Websocket ws = Main.getWS();
+
+    ServoMoteur smRot;
+    ServoMoteur smClamp;
+    ServoMoteur smWrist;
+    ServoMoteur sm1;
+    ServoMoteur sm2;
+    ServoMoteur sm3;
+
+    ArrayList<ServoMoteur> servos = new ArrayList<>();
+
     /**
      * This method is called when the JavaFX application initializes.
      * It sets up the GUI elements and initializes the communication with the robot.
      */
     public void initialize() {
-        PantherInterface.sendLog("Panther HUD initialized !");
-
         // set the maximum value of the sliders
         sliderArmWrist.setMax(resolutionSliders);
         sliderArmUpDown.setMax(resolutionSliders);
@@ -35,6 +49,34 @@ public class PantherController {
         sliderSpeed.setMax(resolutionSliders);
 
         mainAnchor.setStyle("-fx-background-color: rgba(0, 0, 0, 0.1); -fx-background-radius: 10;");
+
+        ArrayList<Text> tPS = new ArrayList<>();
+        tPS.add(textFrontProximity);
+        tPS.add(textLeftProximity);
+        tPS.add(textRightProximity);
+
+        ArrayList<ArrayList<Text>> aTexts = new ArrayList<>();
+        aTexts.add(tPS);
+
+        new Timer().schedule(new Data(ws, aTexts),1000);
+
+        smRot = new ServoMoteur(textServo1,ws,0);
+        smClamp = new ServoMoteur(textServo5,ws,0);
+        smWrist = new ServoMoteur(textServo6,ws,0);
+        sm1 = new ServoMoteur(textServo2,ws,0);
+        sm2 = new ServoMoteur(textServo3,ws,0);
+        sm3 = new ServoMoteur(textServo4,ws,0);
+
+        servos.add(smRot);
+        servos.add(smClamp);
+        servos.add(smWrist);
+        servos.add(sm1);
+        servos.add(sm2);
+        servos.add(sm3);
+
+        new Timer().schedule(new ServosData(servos),100);
+
+        Main.sendLog("PantherII HUD initialized !");
     }
 
     @FXML
@@ -162,6 +204,24 @@ public class PantherController {
     @FXML
     private Text textSpeed;
 
+    @FXML
+    private Text textServo1;
+
+    @FXML
+    private Text textServo2;
+
+    @FXML
+    private Text textServo3;
+
+    @FXML
+    private Text textServo4;
+
+    @FXML
+    private Text textServo5;
+
+    @FXML
+    private Text textServo6;
+
     /**
      * This method is called when a key is pressed on the keyboard.
      * It sets the state of the buttons and sliders to reflect the current keyboard input.
@@ -175,28 +235,24 @@ public class PantherController {
         if (code == KeyCode.Z) {
             if (!forward.isSelected()) {
                 forward.setSelected(true);
-                setTextFrontProximity();
             }
         }
 
         if (code == KeyCode.Q) {
             if (!left.isSelected()) {
                 left.setSelected(true);
-                setTextFrontProximity();
             }
         }
 
         if (code == KeyCode.S) {
             if (!backward.isSelected()) {
                 backward.setSelected(true);
-                setTextFrontProximity();
             }
         }
 
         if (code == KeyCode.D) {
             if (!right.isSelected()) {
                 right.setSelected(true);
-                setTextFrontProximity();
             }
         }
 
@@ -240,6 +296,12 @@ public class PantherController {
                 sliderArmWrist.adjustValue(resolutionSliders / 2);
                 sliderArmUpDown.adjustValue(resolutionSliders / 2);
                 sliderArmRot.adjustValue(resolutionSliders / 2);
+
+                smWrist.reset();
+                smRot.reset();
+                sm1.reset();
+                sm2.reset();
+                sm3.reset();
             }
         }
 
@@ -306,6 +368,9 @@ public class PantherController {
                 sliderClamp.adjustValue(value - 1);
             }
         }
+        smRot.setAngle(Math.floor((sliderArmRot.getValue()/sliderArmRot.getMax())*180));
+        smWrist.setAngle(Math.floor((sliderArmWrist.getValue()/sliderArmWrist.getMax())*180));
+        smClamp.setAngle(Math.floor((sliderClamp.getValue()/sliderClamp.getMax())*180));
     }
 
     /**
@@ -409,12 +474,5 @@ public class PantherController {
             showServo5.setVisible(false);
             showServo6.setVisible(false);
         }
-    }
-
-    /**
-     * This method is called to update the text on the GUI with the front proximity reading from the sensor.
-     */
-    private void setTextFrontProximity(){
-
     }
 }

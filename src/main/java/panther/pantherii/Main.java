@@ -3,11 +3,20 @@ package panther.pantherii;
 import java.io.IOException;
 
 public class Main {
+    static Websocket ws;
     public static void main(String[] args) throws InterruptedException, IOException {
         LaunchInterface li = new LaunchInterface(args);
-        Websocket ws = new Websocket();
+        ws = new Websocket();
 
-        //li.start();
+        li.start();
         ws.start();
+    }
+
+    public static Websocket getWS() {
+        return ws;
+    }
+    public static void sendLog(String str) {
+        System.out.print(java.time.LocalTime.now().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm:ss:SSS")) + " > ");
+        System.out.println(str);
     }
 }
