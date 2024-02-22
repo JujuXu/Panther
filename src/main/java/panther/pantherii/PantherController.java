@@ -24,7 +24,7 @@ public class PantherController {
      * It sets up the GUI elements and initializes the communication with the robot.
      */
     public void initialize() {
-        PantherApp.sendLog("Panther HUD initialized !");
+        PantherInterface.sendLog("Panther HUD initialized !");
 
         // set the maximum value of the sliders
         sliderArmWrist.setMax(resolutionSliders);
@@ -33,6 +33,8 @@ public class PantherController {
         sliderArmFB.setMax(resolutionSliders);
         sliderArmRot.setMax(resolutionSliders);
         sliderSpeed.setMax(resolutionSliders);
+
+        mainAnchor.setStyle("-fx-background-color: rgba(0, 0, 0, 0.1); -fx-background-radius: 10;");
     }
 
     @FXML

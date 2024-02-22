@@ -2,8 +2,6 @@
 
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -12,13 +10,8 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#keyboardPressed" onKeyReleased="#keyboardReleased" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="panther.pantherii.PantherController">
+<AnchorPane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#keyboardPressed" onKeyReleased="#keyboardReleased" prefHeight="850.0" prefWidth="1550.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="panther.pantherii.PantherController">
    <children>
-      <ImageView fitHeight="720.0" fitWidth="1280.0" mouseTransparent="true" pickOnBounds="true">
-         <image>
-            <Image url="@background.jpg" />
-         </image>
-      </ImageView>
       <VBox alignment="TOP_CENTER" prefHeight="300.0" prefWidth="100.0">
          <children>
             <AnchorPane prefHeight="50.0" prefWidth="100.0">
@@ -42,7 +35,7 @@
                </font></Text>
          </children>
       </VBox>
-      <VBox alignment="TOP_CENTER" layoutX="1130.0" prefHeight="400.0" prefWidth="150.0" spacing="10.0">
+      <VBox alignment="TOP_CENTER" layoutX="1375.0" prefHeight="400.0" prefWidth="150.0" spacing="10.0">
          <children>
             <HBox alignment="TOP_CENTER" prefHeight="25.0" prefWidth="200.0" spacing="10.0">
                <children>
@@ -214,7 +207,7 @@
                </children>
             </VBox>
          </children></VBox>
-      <AnchorPane layoutY="570.0" prefHeight="150.0" prefWidth="1280.0">
+      <AnchorPane layoutY="700.0" prefHeight="150.0" prefWidth="1920.0">
          <children>
             <AnchorPane layoutX="35.0" layoutY="30.0" prefHeight="100.0" prefWidth="90.0">
                <children>
@@ -228,7 +221,7 @@
                   <ToggleButton fx:id="right" layoutX="60.0" layoutY="35.0" mnemonicParsing="false" mouseTransparent="true" prefHeight="30.0" prefWidth="30.0" text="D" />
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="590.0" layoutY="30.0" maxHeight="100.0" maxWidth="100.0" prefHeight="100.0" prefWidth="100.0">
+            <AnchorPane layoutX="725.0" layoutY="30.0" maxHeight="100.0" maxWidth="100.0" prefHeight="100.0" prefWidth="100.0">
                <children>
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="50.0" layoutX="35.0" layoutY="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" width="30.0" />
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" layoutX="27.0" layoutY="30.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" width="10.0" />
@@ -253,7 +246,7 @@
                   </Text>
                </children>
             </AnchorPane>
-            <Text fill="WHITE" layoutX="582.0" layoutY="130.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="ROVER UPPER VIEW">
+            <Text fill="WHITE" layoutX="715.0" layoutY="130.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="ROVER UPPER VIEW">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -268,7 +261,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <HBox alignment="TOP_RIGHT" layoutX="1060.0" layoutY="30.0" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="TOP_RIGHT" layoutX="1325.0" layoutY="30.0" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <VBox alignment="BOTTOM_LEFT" prefHeight="200.0" prefWidth="60.0" spacing="18.0">
                      <children>
