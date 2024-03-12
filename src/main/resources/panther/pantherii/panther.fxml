@@ -97,7 +97,7 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Text>
-                        <Text fx:id="ServoA" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="000">
+                        <Text fx:id="servoA" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="000">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -116,7 +116,7 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Text>
-                        <Text fx:id="ServoB" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="000">
+                        <Text fx:id="servoB" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="000">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -135,7 +135,7 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Text>
-                        <Text fx:id="ServoC" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="000">
+                        <Text fx:id="servoC" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="000">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -154,7 +154,7 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Text>
-                        <Text fx:id="ServoD" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="000">
+                        <Text fx:id="servoD" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="000">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -173,7 +173,7 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Text>
-                        <Text fx:id="ServoE" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="000">
+                        <Text fx:id="servoE" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="000">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -192,7 +192,7 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Text>
-                        <Text fx:id="ServoF" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="000">
+                        <Text fx:id="servoF" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="000">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>

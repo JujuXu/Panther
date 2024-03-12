@@ -64,12 +64,12 @@ public class PantherController {
 
         new Timer().schedule(new Data(ws, aTexts),1000);
 
-        smClamp = new ServoMoteur(textServo5,ws,90);
-        smWrist = new ServoMoteur(textServo6,ws,7);
-        smC = new ServoMoteur(textServo2,ws,90);
-        smD = new ServoMoteur(textServo3,ws,170);
-        smE = new ServoMoteur(textServo4,ws,25);
-        smRot = new ServoMoteur(textServo1,ws,90);
+        smClamp = new ServoMoteur(servoA,ws,90);
+        smWrist = new ServoMoteur(servoB,ws,7);
+        smC = new ServoMoteur(servoC,ws,90);
+        smD = new ServoMoteur(servoD,ws,170);
+        smE = new ServoMoteur(servoE,ws,25);
+        smRot = new ServoMoteur(servoF,ws,90);
 
         servos.add(smClamp);
         servos.add(smWrist);
@@ -209,22 +209,22 @@ public class PantherController {
     private Text textSpeed;
 
     @FXML
-    private Text textServo1;
+    private Text servoA;
 
     @FXML
-    private Text textServo2;
+    private Text servoB;
 
     @FXML
-    private Text textServo3;
+    private Text servoC;
 
     @FXML
-    private Text textServo4;
+    private Text servoD;
 
     @FXML
-    private Text textServo5;
+    private Text servoE;
 
     @FXML
-    private Text textServo6;
+    private Text servoF;
 
     /**
      * This method is called when a key is pressed on the keyboard.
