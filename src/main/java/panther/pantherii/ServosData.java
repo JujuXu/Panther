@@ -15,6 +15,6 @@ public class ServosData extends TimerTask {
             sm.sendData();
         }
 
-        new Timer().schedule(new ServosData(servos),100);
+        new Timer().schedule(new ServosData(servos),500);
     }
 }

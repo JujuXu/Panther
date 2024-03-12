@@ -32,12 +32,16 @@ public class ServoMoteur {
 
     public void sendData() {
         String id = text.getId();
-        String tosend = "SM"+id.substring(id.indexOf("o")+1)+"="+angle;
+        String tosend = id.substring(id.indexOf("o")+1)+(int)(angle);
 
         try {
             ws.sendData(tosend);
         } catch (IOException ignored) {
 
         }
+    }
+
+    public double getResetValue() {
+        return resetValue;
     }
 }
