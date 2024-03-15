@@ -23,13 +23,14 @@ public class PantherController {
 
     Websocket ws = Main.getWS();
 
-    ServoMoteur smRot;
+    private int sliderStep = 1;
+
     ServoMoteur smClamp;
     ServoMoteur smWrist;
     ServoMoteur smC;
     ServoMoteur smD;
     ServoMoteur smE;
-
+    ServoMoteur smRot;
     ArrayList<ServoMoteur> servos = new ArrayList<>();
 
     /**
@@ -51,6 +52,7 @@ public class PantherController {
 
         sliderSpeed.setMax(20);
         sliderSpeed.setMin(1);
+        sliderSpeed.adjustValue(sliderStep);
 
         mainAnchor.setStyle("-fx-background-color: rgba(0, 0, 0, 0.1); -fx-background-radius: 10;");
 
@@ -72,13 +74,17 @@ public class PantherController {
         smRot = new ServoMoteur(servoF,ws,90);
 
         servos.add(smClamp);
-        servos.add(smWrist);
+        /*servos.add(smWrist);
         servos.add(smC);
         servos.add(smD);
         servos.add(smE);
-        servos.add(smRot);
+        servos.add(smRot);*/
 
         new Timer().schedule(new ServosData(servos),100);
+
+        sliderClamp.adjustValue(smClamp.getResetValue());
+        sliderArmWrist.adjustValue(smWrist.getResetValue());
+        sliderArmRot.adjustValue(smRot.getResetValue());
 
         Main.sendLog("PantherII HUD initialized !");
     }
@@ -346,6 +352,7 @@ public class PantherController {
             double value = sliderSpeed.getValue();
             if (value > sliderSpeed.getMin()) {
                 sliderSpeed.adjustValue(value - 1);
+                sliderStep = (int) value;
             }
         }
 
@@ -354,6 +361,7 @@ public class PantherController {
             double value = sliderSpeed.getValue();
             if (value < sliderSpeed.getMax()) {
                 sliderSpeed.adjustValue(value + 1);
+                sliderStep = (int) value;
             }
         }
 
@@ -361,7 +369,13 @@ public class PantherController {
             clampTighten.setSelected(true);
             double value = sliderClamp.getValue();
             if (value < sliderClamp.getMax()) {
-                sliderClamp.adjustValue(value + 1);
+                if(value + sliderStep > sliderClamp.getMax()) {
+                    sliderClamp.adjustValue(sliderClamp.getMax());
+                } else {
+                    sliderClamp.adjustValue(value + sliderStep);
+                }
+
+                clampSend();
             }
         }
 
@@ -369,12 +383,24 @@ public class PantherController {
             clampLoosen.setSelected(true);
             double value = sliderClamp.getValue();
             if (value > sliderClamp.getMin()) {
-                sliderClamp.adjustValue(value - 1);
+                if(value - sliderStep < sliderClamp.getMin()) {
+                    sliderClamp.adjustValue(sliderClamp.getMin());
+                } else {
+                    sliderClamp.adjustValue(value - sliderStep);
+                }
+
+                clampSend();
             }
         }
-        smRot.setAngle(Math.floor((sliderArmRot.getValue()/sliderArmRot.getMax())*180));
-        smWrist.setAngle(Math.floor((sliderArmWrist.getValue()/sliderArmWrist.getMax())*180));
-        smClamp.setAngle(Math.floor((sliderClamp.getValue()/sliderClamp.getMax())*180));
+
+        smRot.setAngle(Math.floor(sliderArmRot.getValue()));
+        smWrist.setAngle(Math.floor(sliderArmWrist.getValue()));
+
+    }
+
+    private void clampSend() {
+        smClamp.setAngle(Math.floor(sliderClamp.getValue()));
+        smClamp.sendData();
     }
 
     /**

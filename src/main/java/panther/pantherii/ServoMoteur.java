@@ -7,7 +7,7 @@ import java.io.IOException;
 public class ServoMoteur {
     private Text text;
     private double resetValue;
-    private double angle = resetValue;
+    private double angle;
     private Websocket ws;
     public ServoMoteur(Text text, Websocket ws, double resetValue) {
         this.text = text;
@@ -33,6 +33,8 @@ public class ServoMoteur {
     public void sendData() {
         String id = text.getId();
         String tosend = id.substring(id.indexOf("o")+1)+(int)(angle);
+
+        //System.out.println(tosend);
 
         try {
             ws.sendData(tosend);
