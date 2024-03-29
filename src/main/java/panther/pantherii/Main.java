@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class Main {
     static Websocket ws;
-    public static void main(String[] args) throws InterruptedException, IOException {
+    public static void main(String[] args) {
         LaunchInterface li = new LaunchInterface(args);
         ws = new Websocket();
 

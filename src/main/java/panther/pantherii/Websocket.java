@@ -8,19 +8,19 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Websocket extends Thread {
     private InputStream wsIN;
     private OutputStream wsOUT;
+    private boolean run;
 
     ArrayList<Integer> stream = new ArrayList<>();
     ArrayList<String> data = new ArrayList<>();
+    private ServerSocket serverSocket;
+    private Socket client;
 
     @Override
     public void run() {
@@ -38,44 +38,50 @@ public class Websocket extends Thread {
 
         Main.sendLog("Starting WebSocket server on port "+port);
 
-        ServerSocket serverSocket = new ServerSocket(80);
+        serverSocket = new ServerSocket(80);
 
         if (!serverSocket.isClosed()) {
             Main.sendLog("WebSocket server started on " + ipv4 + ":" + port);
 
-            Main.sendLog("Awaiting PantherII to connect...");
+            getClient();
+        }
+    }
 
-            Socket client = serverSocket.accept();
-            System.out.println(client.getInetAddress());
+    private void getClient() throws IOException, NoSuchAlgorithmException {
+        Main.sendLog("Awaiting Panther32 to connect...");
 
-            wsIN = client.getInputStream();
-            wsOUT = client.getOutputStream();
-            Scanner scan = new Scanner(wsIN, "UTF-8");
+        client = serverSocket.accept();
+        //System.out.println(client.getInetAddress());
 
-            String data = scan.useDelimiter("\\r\\n\\r\\n").next();
-            Matcher get = Pattern.compile("^GET").matcher(data);
+        wsIN = client.getInputStream();
+        wsOUT = client.getOutputStream();
+        Scanner scan = new Scanner(wsIN, "UTF-8");
 
-            if (get.find()) {
-                Matcher match = Pattern.compile("Sec-WebSocket-Key: (.*)").matcher(data);
-                match.find();
-                byte[] response = ("HTTP/1.1 101 Switching Protocols\r\n"
-                        + "Connection: Upgrade\r\n"
-                        + "Upgrade: websocket\r\n"
-                        + "Sec-WebSocket-Accept: "
-                        + Base64.getEncoder().encodeToString(MessageDigest.getInstance("SHA-1").digest((match.group(1) + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11").getBytes("UTF-8")))
-                        + "\r\n\r\n").getBytes("UTF-8");
-                wsOUT.write(response, 0, response.length);
-                wsOUT.flush();
+        String data = scan.useDelimiter("\\r\\n\\r\\n").next();
+        Matcher get = Pattern.compile("^GET").matcher(data);
 
-                Main.sendLog("Connection to PantherII established !");
-            }
+        if (get.find()) {
+            Matcher match = Pattern.compile("Sec-WebSocket-Key: (.*)").matcher(data);
+            match.find();
+            byte[] response = ("HTTP/1.1 101 Switching Protocols\r\n"
+                    + "Connection: Upgrade\r\n"
+                    + "Upgrade: websocket\r\n"
+                    + "Sec-WebSocket-Accept: "
+                    + Base64.getEncoder().encodeToString(MessageDigest.getInstance("SHA-1").digest((match.group(1) + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11").getBytes("UTF-8")))
+                    + "\r\n\r\n").getBytes("UTF-8");
+            wsOUT.write(response, 0, response.length);
+            wsOUT.flush();
+
+            run = true;
+
+            Main.sendLog("Connection to Panther32 established !");
+            new Timer().schedule(new Ping(Main.getWS(),10),10*1000);
 
             readWS();
         }
     }
 
-    private void readWS() throws IOException {
-        boolean run = true;
+    private void readWS() throws IOException, NoSuchAlgorithmException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(wsIN));
 
@@ -104,6 +110,15 @@ public class Websocket extends Thread {
                 }
             }
         }
+
+        closeClient();
+        getClient();
+    }
+
+    private void closeClient() throws IOException {
+        while(!client.isClosed()) {
+            client.close();
+        }
     }
 
     public void sendData(String str) throws IOException {
@@ -118,6 +133,10 @@ public class Websocket extends Thread {
         data = new ArrayList<>();
 
         return ddata;
+    }
+
+    public void reset() {
+        run = false;
     }
 
     private byte[] encodeString(String message) {
