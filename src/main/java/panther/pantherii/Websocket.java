@@ -75,7 +75,7 @@ public class Websocket extends Thread {
             run = true;
 
             Main.sendLog("Connection to Panther32 established !");
-            new Timer().schedule(new Ping(Main.getWS(),10),10*1000);
+            new Timer().schedule(new Ping(Main.getWS(),10*1000),10*1000);
 
             readWS();
         }

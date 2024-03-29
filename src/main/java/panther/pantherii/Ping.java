@@ -9,11 +9,11 @@ import java.util.TimerTask;
 
 public class Ping extends TimerTask {
     Websocket ws;
-    private int sec;
+    private int ms;
     private ArrayList<Long> pings = new ArrayList<>();
-    public Ping(Websocket ws, int sec) {
+    public Ping(Websocket ws, int ms) {
         this.ws = ws;
-        this.sec = sec;
+        this.ms = ms;
     }
     @Override
     public void run() {
@@ -40,7 +40,7 @@ public class Ping extends TimerTask {
             ws.reset();
             Main.sendLog("No ping received from Panther32. Reseting WebSocket Client...");
         } else {
-            new Timer().schedule(new Ping(Main.getWS(),sec),sec* 1000L);
+            new Timer().schedule(new Ping(Main.getWS(),ms),ms);
         }
     }
 }

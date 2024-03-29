@@ -64,7 +64,7 @@ public class PantherController {
         ArrayList<ArrayList<Text>> aTexts = new ArrayList<>();
         aTexts.add(tPS);
 
-        new Timer().schedule(new Data(ws, aTexts),1000);
+        new Timer().schedule(new Data(ws, aTexts,1000),1000);
 
         smClamp = new ServoMoteur(servoA,ws,90);
         smWrist = new ServoMoteur(servoB,ws,7);
@@ -80,7 +80,7 @@ public class PantherController {
         servos.add(smE);
         servos.add(smRot);
 
-        new Timer().schedule(new ServosData(servos),100);
+        new Timer().schedule(new ServosData(servos,100),100);
 
         sliderClamp.adjustValue(smClamp.getResetValue());
         sliderArmWrist.adjustValue(smWrist.getResetValue());

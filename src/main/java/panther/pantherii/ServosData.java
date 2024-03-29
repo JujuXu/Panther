@@ -6,8 +6,10 @@ import java.util.TimerTask;
 
 public class ServosData extends TimerTask {
     ArrayList<ServoMoteur> servos;
-    public ServosData(ArrayList<ServoMoteur> servos) {
+    int ms;
+    public ServosData(ArrayList<ServoMoteur> servos,int ms) {
         this.servos = servos;
+        this.ms = ms;
     }
     @Override
     public void run() {
@@ -15,6 +17,6 @@ public class ServosData extends TimerTask {
             sm.sendData();
         }
 
-        new Timer().schedule(new ServosData(servos),100);
+        new Timer().schedule(new ServosData(servos,ms),ms);
     }
 }

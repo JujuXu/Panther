@@ -8,11 +8,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Data extends TimerTask {
-    Websocket ws;
-    ArrayList<ArrayList<Text>> aTexts;
-    public Data(Websocket ws, ArrayList<ArrayList<Text>> aTexts) {
+    private Websocket ws;
+    private ArrayList<ArrayList<Text>> aTexts;
+    private int ms;
+    public Data(Websocket ws, ArrayList<ArrayList<Text>> aTexts, int ms) {
         this.ws = ws;
         this.aTexts = aTexts;
+        this.ms = ms;
     }
     @Override
     public void run() {
@@ -37,6 +39,6 @@ public class Data extends TimerTask {
             }
         }
 
-        new Timer().schedule(new Data(ws,aTexts),1000);
+        new Timer().schedule(new Data(ws,aTexts,ms),ms);
     }
 }
