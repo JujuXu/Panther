@@ -12,6 +12,7 @@ import javafx.scene.shape.QuadCurve;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 
@@ -50,9 +51,10 @@ public class PantherController {
 
         sliderArmRot.setMax(180);
 
-        sliderSpeed.setMax(20);
+        sliderSpeed.setMax(15);
         sliderSpeed.setMin(1);
-        sliderSpeed.adjustValue(sliderStep);
+        sliderSpeed.adjustValue(sliderSpeed.getMin());
+        sliderStep = (int) sliderSpeed.getValue();
 
         mainAnchor.setStyle("-fx-background-color: rgba(0, 0, 0, 0.1); -fx-background-radius: 10;");
 
@@ -64,7 +66,7 @@ public class PantherController {
         ArrayList<ArrayList<Text>> aTexts = new ArrayList<>();
         aTexts.add(tPS);
 
-        new Timer().schedule(new Data(ws, aTexts,1000),1000);
+        new Timer().schedule(new ReadData(ws, aTexts,1000),1000);
 
         smClamp = new ServoMoteur(servoA,ws,90);
         smWrist = new ServoMoteur(servoB,ws,7);
@@ -80,7 +82,7 @@ public class PantherController {
         servos.add(smE);
         servos.add(smRot);
 
-        new Timer().schedule(new ServosData(servos,100),100);
+        new Timer().schedule(new ResendData(servos,sliderSpeed, 2*1000),1000);
 
         sliderClamp.adjustValue(smClamp.getResetValue());
         sliderArmWrist.adjustValue(smWrist.getResetValue());
@@ -239,30 +241,34 @@ public class PantherController {
      * @param event the KeyEvent that triggered the method call
      */
     @FXML
-    private void keyboardPressed(KeyEvent event) {
+    private void keyboardPressed(KeyEvent event) throws IOException {
         KeyCode code = event.getCode();
 
         if (code == KeyCode.Z) {
             if (!forward.isSelected()) {
                 forward.setSelected(true);
+                ws.sendData("Z");
             }
         }
 
         if (code == KeyCode.Q) {
             if (!left.isSelected()) {
                 left.setSelected(true);
+                ws.sendData("Q");
             }
         }
 
         if (code == KeyCode.S) {
             if (!backward.isSelected()) {
                 backward.setSelected(true);
+                ws.sendData("S");
             }
         }
 
         if (code == KeyCode.D) {
             if (!right.isSelected()) {
                 right.setSelected(true);
+                ws.sendData("D");
             }
         }
 
@@ -270,7 +276,12 @@ public class PantherController {
             armDown.setSelected(true);
             double value = sliderArmUpDown.getValue();
             if (value > sliderArmUpDown.getMin()) {
-                sliderArmUpDown.adjustValue(value - 1);
+                if(!(value - sliderStep < sliderArmWrist.getMin())) {
+                    sliderArmUpDown.adjustValue(value - sliderStep);
+                } else {
+                    sliderArmUpDown.adjustValue(sliderArmUpDown.getMin());
+                }
+
             }
         }
 
@@ -278,7 +289,13 @@ public class PantherController {
             armWristDown.setSelected(true);
             double value = sliderArmWrist.getValue();
             if (value > sliderArmWrist.getMin()) {
-                sliderArmWrist.adjustValue(value - 1);
+                if(!(value - sliderStep < sliderArmWrist.getMin())) {
+                    sliderArmWrist.adjustValue(value - sliderStep);
+                } else {
+                    sliderArmWrist.adjustValue(sliderArmWrist.getMin());
+                }
+
+                wristSend();
             }
         }
 
@@ -286,7 +303,11 @@ public class PantherController {
             armBackward.setSelected(true);
             double value = sliderArmFB.getValue();
             if (value > sliderArmFB.getMin()) {
-                sliderArmFB.adjustValue(value - 1);
+                if(!(value - sliderStep < sliderArmFB.getMin())) {
+                    sliderArmFB.adjustValue(value - sliderStep);
+                } else {
+                    sliderArmFB.adjustValue(sliderArmFB.getMin());
+                }
             }
         }
 
@@ -294,7 +315,13 @@ public class PantherController {
             armRotLeft.setSelected(true);
             double value = sliderArmRot.getValue();
             if (value > sliderArmRot.getMin()) {
-                sliderArmRot.adjustValue(value - 1);
+                if(!(value - sliderStep < sliderArmWrist.getMin())) {
+                    sliderArmRot.adjustValue(value - sliderStep);
+                } else {
+                    sliderArmRot.adjustValue(sliderArmRot.getMin());
+                }
+
+                rotSend();
             }
         }
 
@@ -312,6 +339,10 @@ public class PantherController {
                 smD.reset();
                 smE.reset();
                 smRot.reset();
+
+                rotSend();
+                clampSend();
+                wristSend();
             }
         }
 
@@ -319,7 +350,13 @@ public class PantherController {
             armRotRight.setSelected(true);
             double value = sliderArmRot.getValue();
             if (value < sliderArmRot.getMax()) {
-                sliderArmRot.adjustValue(value + 1);
+                if(!(value + sliderStep > sliderArmRot.getMax())) {
+                    sliderArmRot.adjustValue(value + sliderStep);
+                } else {
+                    sliderArmRot.adjustValue(sliderArmRot.getMax());
+                }
+
+                rotSend();
             }
         }
 
@@ -327,7 +364,11 @@ public class PantherController {
             armUp.setSelected(true);
             double value = sliderArmUpDown.getValue();
             if (value < sliderArmUpDown.getMax()) {
-                sliderArmUpDown.adjustValue(value + 1);
+                if(!(value + sliderStep > sliderArmUpDown.getMax())) {
+                    sliderArmUpDown.adjustValue(value + sliderStep);
+                } else {
+                    sliderArmUpDown.adjustValue(sliderArmUpDown.getMax());
+                }
             }
         }
 
@@ -335,7 +376,13 @@ public class PantherController {
             armWristUp.setSelected(true);
             double value = sliderArmWrist.getValue();
             if (value < sliderArmWrist.getMax()) {
-                sliderArmWrist.adjustValue(value + 1);
+                if(!(value + sliderStep > sliderArmWrist.getMax())) {
+                    sliderArmWrist.adjustValue(value + sliderStep);
+                } else {
+                    sliderArmWrist.adjustValue(sliderArmWrist.getMax());
+                }
+
+                wristSend();
             }
         }
 
@@ -343,7 +390,11 @@ public class PantherController {
             armForward.setSelected(true);
             double value = sliderArmFB.getValue();
             if (value < sliderArmFB.getMax()) {
-                sliderArmFB.adjustValue(value + 1);
+                if(!(value + sliderStep > sliderArmFB.getMax())) {
+                    sliderArmFB.adjustValue(value + sliderStep);
+                } else {
+                    sliderArmFB.adjustValue(sliderArmFB.getMax());
+                }
             }
         }
 
@@ -353,6 +404,8 @@ public class PantherController {
             if (value > sliderSpeed.getMin()) {
                 sliderSpeed.adjustValue(value - 1);
                 sliderStep = (int) value;
+
+                stepSend();
             }
         }
 
@@ -362,6 +415,8 @@ public class PantherController {
             if (value < sliderSpeed.getMax()) {
                 sliderSpeed.adjustValue(value + 1);
                 sliderStep = (int) value;
+
+                stepSend();
             }
         }
 
@@ -392,15 +447,26 @@ public class PantherController {
                 clampSend();
             }
         }
-
-        smRot.setAngle(Math.floor(sliderArmRot.getValue()));
-        smWrist.setAngle(Math.floor(sliderArmWrist.getValue()));
-
     }
 
     private void clampSend() {
         smClamp.setAngle(Math.floor(sliderClamp.getValue()));
         smClamp.sendData();
+    }
+
+    private void stepSend() throws IOException {
+        int speedPercent = (int) Math.ceil((100/(sliderSpeed.getMax()-sliderSpeed.getMin())*sliderSpeed.getValue()-100/sliderSpeed.getMax()-sliderSpeed.getMin()*1));
+        ws.sendData("ST"+speedPercent);
+    }
+
+    private void wristSend() {
+        smWrist.setAngle(Math.floor(sliderArmWrist.getValue()));
+        smWrist.sendData();
+    }
+
+    private void rotSend() {
+        smRot.setAngle(Math.floor(sliderArmRot.getValue()));
+        smRot.sendData();
     }
 
     /**
@@ -410,23 +476,27 @@ public class PantherController {
      * @param event the KeyEvent that triggered the method call
      */
     @FXML
-    private void keyboardReleased(KeyEvent event) {
+    private void keyboardReleased(KeyEvent event) throws IOException {
         KeyCode code = event.getCode();
 
         if (code == KeyCode.Z) {
             forward.setSelected(false);
+            ws.sendData("z");
         }
 
         if (code == KeyCode.Q) {
             left.setSelected(false);
+            ws.sendData("q");
         }
 
         if (code == KeyCode.S) {
             backward.setSelected(false);
+            ws.sendData("s");
         }
 
         if (code == KeyCode.D) {
             right.setSelected(false);
+            ws.sendData("d");
         }
 
         if (code == KeyCode.NUMPAD1) {

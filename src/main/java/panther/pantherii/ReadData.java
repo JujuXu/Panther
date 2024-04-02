@@ -2,16 +2,15 @@ package panther.pantherii;
 
 import javafx.scene.text.Text;
 
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Data extends TimerTask {
+public class ReadData extends TimerTask {
     private Websocket ws;
     private ArrayList<ArrayList<Text>> aTexts;
     private int ms;
-    public Data(Websocket ws, ArrayList<ArrayList<Text>> aTexts, int ms) {
+    public ReadData(Websocket ws, ArrayList<ArrayList<Text>> aTexts, int ms) {
         this.ws = ws;
         this.aTexts = aTexts;
         this.ms = ms;
@@ -39,6 +38,6 @@ public class Data extends TimerTask {
             }
         }
 
-        new Timer().schedule(new Data(ws,aTexts,ms),ms);
+        new Timer().schedule(new ReadData(ws,aTexts,ms),ms);
     }
 }

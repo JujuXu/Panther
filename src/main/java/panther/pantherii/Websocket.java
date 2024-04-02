@@ -75,7 +75,7 @@ public class Websocket extends Thread {
             run = true;
 
             Main.sendLog("Connection to Panther32 established !");
-            new Timer().schedule(new Ping(Main.getWS(),10*1000),10*1000);
+            new Timer().schedule(new Ping(Main.getWS(),30*1000),30*1000);
 
             readWS();
         }
@@ -123,8 +123,10 @@ public class Websocket extends Thread {
 
     public void sendData(String str) throws IOException {
         if(wsOUT!=null) {
-            wsOUT.write(encodeString(str));
-            wsOUT.flush();
+            if(!serverSocket.isClosed()) {
+                wsOUT.write(encodeString(str));
+                wsOUT.flush();
+            }
         }
     }
 
