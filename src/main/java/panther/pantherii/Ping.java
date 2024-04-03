@@ -22,7 +22,6 @@ public class Ping extends TimerTask {
         long millis = ZonedDateTime.now().toInstant().toEpochMilli();
 
         if(!astr.isEmpty()) {
-            String PS;
             for(int i = 0; i<astr.size(); i++) {
                 String str = astr.get(i);
 
@@ -35,10 +34,10 @@ public class Ping extends TimerTask {
 
         if(pings.isEmpty()) {
             ws.reset();
-            Main.sendLog("No ping received from Panther32. Reseting WebSocket Client...");
+            Main.sendLog("No ping received from Panther32. Reseting WebSocket Client... [Empty]");
         } else if(millis - pings.get(pings.size()-1) > 10*1000) {
             ws.reset();
-            Main.sendLog("No ping received from Panther32. Reseting WebSocket Client...");
+            Main.sendLog("No ping received from Panther32. Reseting WebSocket Client... [Timed out]");
         } else {
             new Timer().schedule(new Ping(Main.getWS(),ms),ms);
         }

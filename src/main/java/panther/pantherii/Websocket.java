@@ -106,7 +106,7 @@ public class Websocket extends Thread {
                     }
 
                     data.add(msg.toString());
-                    System.out.println(msg);
+                    //System.out.println(msg);
                 }
             }
         }
@@ -131,10 +131,14 @@ public class Websocket extends Thread {
     }
 
     public ArrayList<String> getData() {
-        ArrayList<String> ddata = data;
-        data = new ArrayList<>();
+        checkSize();
+        return data;
+    }
 
-        return ddata;
+    private void checkSize() {
+        while(data.size() > 20) {
+            data.remove(0);
+        }
     }
 
     public void reset() {
