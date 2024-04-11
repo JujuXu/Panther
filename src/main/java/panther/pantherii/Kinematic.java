@@ -4,7 +4,7 @@ import javafx.scene.control.Slider;
 
 import java.util.ArrayList;
 
-public class Kinetic {
+public class Kinematic {
     private ServoMoteur smC; // top
     private ServoMoteur smD;
     private ServoMoteur smE; // bottom
@@ -16,15 +16,15 @@ public class Kinetic {
     private boolean down;
     private boolean forward;
     private boolean backward;
-    double at;
-    double a;
-    double b;
-    double c;
-    double l1;
-    double l2;
-    double l3;
+    private double at;
+    private double a;
+    private double b;
+    private double c;
+    private double l1;
+    private double l2;
+    private double l3;
     private boolean run;
-    public Kinetic(ArrayList<ServoMoteur> servos, double[] dims, Slider xslider, Slider yslider) {
+    public Kinematic(ArrayList<ServoMoteur> servos, double[] dims, Slider xslider, Slider yslider) {
         this.smC = servos.get(2);
         this.smD = servos.get(3);
         this.smE = servos.get(4);
@@ -44,35 +44,27 @@ public class Kinetic {
         b = smD.getResetValue();
         c = smC.getResetValue();
 
-        System.out.println("home: a: "+a+" b: "+b+" c: "+c);
+        //System.out.println("home: a: "+a+" b: "+b+" c: "+c);
 
-        double addX = l1*Math.sin(Math.toRadians(a)+l2*Math.sin(Math.toRadians(a+b)));
-        double addY = l1*Math.cos(Math.toRadians(a)+l2*Math.cos(Math.toRadians(a+b)));
+        //double addX = l1*Math.sin(Math.toRadians(a)+l2*Math.sin(Math.toRadians(a+b)));
+        //double addY = l1*Math.cos(Math.toRadians(a)+l2*Math.cos(Math.toRadians(a+b)));
 
         x.clear();
         y.clear();
 
-        x.add(addX);
-        x.add(addX);
+        x.add(125d);
+        y.add(105d);
 
-        y.add(addY);
-        y.add(addY);
-
-        xslider.adjustValue(addX);
-        yslider.adjustValue(addY);
-
-        sendAngles();
+        setAngles(true);
     }
 
     public void setX(double x) {
         this.x.add(x);
-        checkFor();
         setAngles(true);
     }
 
     public void setY(double y) {
         this.y.add(y);
-        checkUp();
         setAngles(false);
     }
 
@@ -83,11 +75,11 @@ public class Kinetic {
             }
 
             if(x.get(0) > x.get(1)) {
-                down = true;
-                up = false;
+                backward = true;
+                forward = false;
             } else {
-                down = false;
-                up = true;
+                backward = false;
+                forward = true;
             }
         }
     }
@@ -99,11 +91,11 @@ public class Kinetic {
             }
 
             if(y.get(0) > y.get(1)) {
-                backward = true;
-                forward = false;
+                down = true;
+                up = false;
             } else {
-                backward = false;
-                forward = true;
+                down = false;
+                up = true;
             }
         }
     }
@@ -111,6 +103,9 @@ public class Kinetic {
     private void setAngles(boolean isX) {
         double xx;
         double yy;
+
+        checkUp();
+        checkFor();
 
         if(x.size() >= 2) {
             xx = x.get(1);
@@ -137,30 +132,38 @@ public class Kinetic {
             if(Double.isNaN(a) || Double.isNaN(b)) {
                 if(isX) {
                     if(forward && !backward) {
-                        yy--;
-                    } else if(isX && !forward && backward) {
-                        yy++;
+                        yy = yy-1;
+                    } else if(!forward && backward) {
+                        yy = yy +1;
                     }
                 } else {
                     if(up && !down) {
-                        xx--;
+                        xx = xx -1;
                     } else if(!up && down) {
-                        xx++;
+                        xx = xx +1;
                     }
                 }
             } else {
                 run = false;
             }
-
-            x.add(xx);
-            y.add(yy);
-
-            a = Math.toDegrees(a);
-            a = Math.toDegrees(a);
-            c = Math.toDegrees(Math.PI / 2 - a - b); // add offset to control pitch of angle c
-
-            sendAngles();
         }
+        x.add(xx);
+        y.add(yy);
+
+        xslider.adjustValue(xx);
+        yslider.adjustValue(yy);
+
+        //System.out.println("setAngles at: "+at);
+        //System.out.println("setAngles a: "+a);
+        //System.out.println("setAngles b: "+b);
+        //System.out.println("setAngles c: "+((Math.PI / 2) - a - b));
+
+        c = (int) Math.toDegrees((Math.PI / 2) - a - b)+90; // add offset to control pitch of angle c
+        a = (int) Math.toDegrees(a) + 90;
+        b = (int) Math.toDegrees(b) + 90;
+
+        sendAngles();
+        //System.out.println("x: "+xx+" y: "+yy);
     }
 
     private void sendAngles() {
@@ -173,6 +176,6 @@ public class Kinetic {
         smC.setAngle(c);
         smC.sendData();
 
-        System.out.println("sendAngles: a: "+a+" b: "+b+" c: "+c);
+        //System.out.println("sendAngles: a: "+a+" b: "+b+" c: "+c);
     }
 }

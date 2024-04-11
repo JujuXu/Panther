@@ -33,7 +33,7 @@ public class PantherController {
     ServoMoteur smE;
     ServoMoteur smRot;
     ArrayList<ServoMoteur> servos = new ArrayList<>();
-    Kinetic kinetic;
+    Kinematic kinematic;
 
     double[] dims = new double[3];
 
@@ -42,6 +42,10 @@ public class PantherController {
      * It sets up the GUI elements and initializes the communication with the robot.
      */
     public void initialize() {
+        dims[0] = 105;
+        dims[1] = 128;
+        dims[2] = 180;
+
         // set the maximum value of the sliders
         sliderClamp.setMax(100);
         sliderClamp.setMin(30);
@@ -76,8 +80,8 @@ public class PantherController {
         smClamp = new ServoMoteur(servoA,ws,90);
         smWrist = new ServoMoteur(servoB,ws,7);
         smC = new ServoMoteur(servoC,ws,90);
-        smD = new ServoMoteur(servoD,ws,170);
-        smE = new ServoMoteur(servoE,ws,25);
+        smD = new ServoMoteur(servoD,ws,160);
+        smE = new ServoMoteur(servoE,ws,45);
         smRot = new ServoMoteur(servoF,ws,90);
 
         servos.add(smClamp);
@@ -93,11 +97,7 @@ public class PantherController {
         sliderArmWrist.adjustValue(smWrist.getResetValue());
         sliderArmRot.adjustValue(smRot.getResetValue());
 
-        dims[0] = 105;
-        dims[1] = 128;
-        dims[2] = 180;
-
-        kinetic = new Kinetic(servos,dims,sliderArmFB,sliderArmUpDown);
+        kinematic = new Kinematic(servos,dims,sliderArmFB,sliderArmUpDown);
 
         Main.sendLog("PantherII HUD initialized !");
     }
@@ -293,6 +293,7 @@ public class PantherController {
                     sliderArmUpDown.adjustValue(sliderArmUpDown.getMin());
                 }
 
+                kinematic.setY(sliderArmUpDown.getValue());
             }
         }
 
@@ -319,6 +320,8 @@ public class PantherController {
                 } else {
                     sliderArmFB.adjustValue(sliderArmFB.getMin());
                 }
+
+                kinematic.setX(sliderArmFB.getValue());
             }
         }
 
@@ -354,6 +357,8 @@ public class PantherController {
                 rotSend();
                 clampSend();
                 wristSend();
+
+                kinematic.home();
             }
         }
 
@@ -380,6 +385,8 @@ public class PantherController {
                 } else {
                     sliderArmUpDown.adjustValue(sliderArmUpDown.getMax());
                 }
+
+                kinematic.setY(sliderArmUpDown.getValue());
             }
         }
 
@@ -406,6 +413,8 @@ public class PantherController {
                 } else {
                     sliderArmFB.adjustValue(sliderArmFB.getMax());
                 }
+
+                kinematic.setX(sliderArmFB.getValue());
             }
         }
 
