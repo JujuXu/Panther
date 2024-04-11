@@ -33,6 +33,9 @@ public class PantherController {
     ServoMoteur smE;
     ServoMoteur smRot;
     ArrayList<ServoMoteur> servos = new ArrayList<>();
+    Kinetic kinetic;
+
+    double[] dims = new double[3];
 
     /**
      * This method is called when the JavaFX application initializes.
@@ -45,9 +48,11 @@ public class PantherController {
 
         sliderArmWrist.setMax(180);
 
-        sliderArmUpDown.setMax(180);
+        sliderArmUpDown.setMax(dims[0]+dims[1]);
+        sliderArmUpDown.setMin(0);
 
-        sliderArmFB.setMax(20);
+        sliderArmFB.setMax(dims[0]+dims[1]);
+        sliderArmFB.setMin(0);
 
         sliderArmRot.setMax(180);
 
@@ -87,6 +92,12 @@ public class PantherController {
         sliderClamp.adjustValue(smClamp.getResetValue());
         sliderArmWrist.adjustValue(smWrist.getResetValue());
         sliderArmRot.adjustValue(smRot.getResetValue());
+
+        dims[0] = 105;
+        dims[1] = 128;
+        dims[2] = 180;
+
+        kinetic = new Kinetic(servos,dims,sliderArmFB,sliderArmUpDown);
 
         Main.sendLog("PantherII HUD initialized !");
     }
