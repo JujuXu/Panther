@@ -2,7 +2,6 @@ package panther.pantherii;
 
 import java.io.*;
 import java.net.Inet4Address;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
@@ -55,7 +54,7 @@ public class Websocket extends Thread {
 
         wsIN = client.getInputStream();
         wsOUT = client.getOutputStream();
-        Scanner scan = new Scanner(wsIN, "UTF-8");
+        Scanner scan = new Scanner(wsIN, StandardCharsets.UTF_8);
 
         String data = scan.useDelimiter("\\r\\n\\r\\n").next();
         Matcher get = Pattern.compile("^GET").matcher(data);
@@ -67,15 +66,15 @@ public class Websocket extends Thread {
                     + "Connection: Upgrade\r\n"
                     + "Upgrade: websocket\r\n"
                     + "Sec-WebSocket-Accept: "
-                    + Base64.getEncoder().encodeToString(MessageDigest.getInstance("SHA-1").digest((match.group(1) + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11").getBytes("UTF-8")))
-                    + "\r\n\r\n").getBytes("UTF-8");
+                    + Base64.getEncoder().encodeToString(MessageDigest.getInstance("SHA-1").digest((match.group(1) + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11").getBytes(StandardCharsets.UTF_8)))
+                    + "\r\n\r\n").getBytes(StandardCharsets.UTF_8);
             wsOUT.write(response, 0, response.length);
             wsOUT.flush();
 
             run = true;
 
             Main.sendLog("Connection to Panther32 established !");
-            new Timer().schedule(new Ping(Main.getWS(),30*1000),30*1000);
+            new Timer().schedule(new Ping(Main.getWS(),3*1000),3*1000);
 
             readWS();
         }
@@ -123,7 +122,7 @@ public class Websocket extends Thread {
 
     public void sendData(String str) throws IOException {
         if(wsOUT!=null) {
-            if(!serverSocket.isClosed()) {
+            if(!serverSocket.isClosed() && !client.isClosed()) {
                 wsOUT.write(encodeString(str));
                 wsOUT.flush();
             }
@@ -143,6 +142,10 @@ public class Websocket extends Thread {
 
     public void reset() {
         run = false;
+    }
+
+    public boolean isConnected() {
+        return run;
     }
 
     private byte[] encodeString(String message) {

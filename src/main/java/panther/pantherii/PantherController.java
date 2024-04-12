@@ -1,6 +1,5 @@
 package panther.pantherii;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
@@ -8,6 +7,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.QuadCurve;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -99,6 +100,8 @@ public class PantherController {
 
         kinematic = new Kinematic(servos,dims,sliderArmFB,sliderArmUpDown);
 
+        new Timer().schedule(new Status(circleStatus, textStatus,1000),1000);
+
         Main.sendLog("PantherII HUD initialized !");
     }
 
@@ -124,12 +127,6 @@ public class PantherController {
     private ToggleButton armUp;
 
     @FXML
-    private ToggleButton armWristDown;
-
-    @FXML
-    private ToggleButton armWristUp;
-
-    @FXML
     private ToggleButton backward;
 
     @FXML
@@ -140,6 +137,9 @@ public class PantherController {
 
     @FXML
     private Rectangle battery66;
+
+    @FXML
+    private Circle circleStatus;
 
     @FXML
     private ToggleButton clampLoosen;
@@ -167,6 +167,24 @@ public class PantherController {
 
     @FXML
     private QuadCurve rightProximity;
+
+    @FXML
+    private Text servoA;
+
+    @FXML
+    private Text servoB;
+
+    @FXML
+    private Text servoC;
+
+    @FXML
+    private Text servoD;
+
+    @FXML
+    private Text servoE;
+
+    @FXML
+    private Text servoF;
 
     @FXML
     private ToggleButton servosAngles;
@@ -204,7 +222,11 @@ public class PantherController {
     @FXML
     private Slider sliderClamp;
 
-    @FXML Slider sliderSpeed;
+    @FXML
+    private Slider sliderSpeed;
+
+    @FXML
+    private Slider sliderWristPitch;
 
     @FXML
     private ToggleButton speedDown;
@@ -228,22 +250,19 @@ public class PantherController {
     private Text textSpeed;
 
     @FXML
-    private Text servoA;
+    private Text textStatus;
 
     @FXML
-    private Text servoB;
+    private ToggleButton wristDown;
 
     @FXML
-    private Text servoC;
+    private ToggleButton wristLeft;
 
     @FXML
-    private Text servoD;
+    private ToggleButton wristRight;
 
     @FXML
-    private Text servoE;
-
-    @FXML
-    private Text servoF;
+    private ToggleButton wristUp;
 
     /**
      * This method is called when a key is pressed on the keyboard.
@@ -298,7 +317,7 @@ public class PantherController {
         }
 
         if (code == KeyCode.NUMPAD2) {
-            armWristDown.setSelected(true);
+            wristLeft.setSelected(true);
             double value = sliderArmWrist.getValue();
             if (value > sliderArmWrist.getMin()) {
                 if(!(value - sliderStep < sliderArmWrist.getMin())) {
@@ -391,7 +410,7 @@ public class PantherController {
         }
 
         if (code == KeyCode.NUMPAD8) {
-            armWristUp.setSelected(true);
+            wristRight.setSelected(true);
             double value = sliderArmWrist.getValue();
             if (value < sliderArmWrist.getMax()) {
                 if(!(value + sliderStep > sliderArmWrist.getMax())) {
@@ -524,7 +543,7 @@ public class PantherController {
         }
 
         if (code == KeyCode.NUMPAD2) {
-            armWristDown.setSelected(false);
+            wristLeft.setSelected(false);
         }
 
         if (code == KeyCode.NUMPAD3) {
@@ -548,7 +567,7 @@ public class PantherController {
         }
 
         if (code == KeyCode.NUMPAD8) {
-            armWristUp.setSelected(false);
+            wristRight.setSelected(false);
         }
 
         if (code == KeyCode.NUMPAD9) {
@@ -575,10 +594,9 @@ public class PantherController {
      * This method is called when the "Servo Angles" button is pressed.
      * It toggles the visibility of the servo angle boxes.
      *
-     * @param event the ActionEvent that triggered the method call
      */
     @FXML
-    private void servosAnglesPressed(ActionEvent event) {
+    private void servosAnglesPressed() {
         if(servosAngles.isSelected()) {
             showServo1.setVisible(true);
             showServo2.setVisible(true);

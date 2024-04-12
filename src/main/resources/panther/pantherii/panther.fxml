@@ -5,6 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.QuadCurve?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
@@ -14,6 +15,16 @@
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="300.0" prefWidth="100.0">
          <children>
+            <HBox alignment="CENTER" prefHeight="25.0" prefWidth="200.0" spacing="5.0">
+               <children>
+                  <Circle fx:id="circleStatus" fill="RED" radius="5.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <Text fx:id="textStatus" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="OFFLINE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
             <AnchorPane prefHeight="50.0" prefWidth="100.0">
                <children>
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="22.0" layoutX="14.0" layoutY="14.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" width="42.0" />
@@ -29,22 +40,27 @@
                      </font></Text>
                </children>
             </AnchorPane>
-            <Text fx:id="textSpeed" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="Speed : 0 m/s">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font></Text>
-         </children>
-      </VBox>
-      <VBox alignment="TOP_CENTER" layoutX="1375.0" prefHeight="400.0" prefWidth="150.0" spacing="10.0">
-         <children>
-            <HBox alignment="TOP_CENTER" prefHeight="25.0" prefWidth="200.0" spacing="10.0">
+            <HBox alignment="CENTER" prefHeight="25.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <Text fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="ARM&#10;U/D" textAlignment="CENTER">
+                  <Text fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="Speed :">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Text>
-                  <Text fill="WHITE" layoutX="112.0" layoutY="23.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="ARM&#10;Wrist" textAlignment="CENTER">
+                  <Text fx:id="textSpeed" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="0 m/s">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox alignment="TOP_CENTER" layoutX="1350.0" prefHeight="400.0" prefWidth="175.0" spacing="10.0">
+         <children>
+            <HBox alignment="TOP_CENTER" prefHeight="25.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Text fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="ARM&#10;U/D" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -54,27 +70,40 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Text>
+                  <Text fill="WHITE" layoutX="112.0" layoutY="23.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="Wrist&#10;R/L" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+                  <Text fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="Wrist&#10;U/D" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
                </children>
             </HBox>
             <HBox alignment="TOP_CENTER" prefHeight="30.0" prefWidth="200.0" spacing="20.0">
                <children>
                   <ToggleButton fx:id="armUp" mnemonicParsing="false" mouseTransparent="true" text="7" />
-                  <ToggleButton fx:id="armWristUp" layoutX="42.0" layoutY="10.0" mnemonicParsing="false" mouseTransparent="true" text="8" />
                   <ToggleButton fx:id="armForward" mnemonicParsing="false" mouseTransparent="true" text="9" />
+                  <ToggleButton fx:id="wristRight" layoutX="42.0" layoutY="10.0" mnemonicParsing="false" mouseTransparent="true" text="8" />
+                  <ToggleButton fx:id="wristUp" mnemonicParsing="false" mouseTransparent="true" text="P" />
                </children>
             </HBox>
-            <HBox alignment="TOP_CENTER" prefHeight="150.0" prefWidth="200.0" spacing="15.0">
+            <HBox alignment="TOP_CENTER" prefHeight="150.0" prefWidth="200.0" spacing="20.0">
                <children>
                   <Slider fx:id="sliderArmUpDown" maxHeight="100.0" mouseTransparent="true" orientation="VERTICAL" prefHeight="100.0" prefWidth="25.0" showTickMarks="true" value="50.0" />
-                  <Slider fx:id="sliderArmWrist" layoutX="28.0" layoutY="10.0" maxHeight="100.0" mouseTransparent="true" orientation="VERTICAL" prefHeight="100.0" prefWidth="25.0" showTickMarks="true" value="50.0" />
                   <Slider fx:id="sliderArmFB" maxHeight="100.0" mouseTransparent="true" orientation="VERTICAL" prefHeight="100.0" prefWidth="25.0" showTickMarks="true" value="50.0" />
+                  <Slider fx:id="sliderArmWrist" layoutX="28.0" layoutY="10.0" maxHeight="100.0" mouseTransparent="true" orientation="VERTICAL" prefHeight="100.0" prefWidth="25.0" showTickMarks="true" value="50.0" />
+                  <Slider fx:id="sliderWristPitch" maxHeight="100.0" mouseTransparent="true" orientation="VERTICAL" prefHeight="100.0" prefWidth="25.0" showTickMarks="true" value="50.0" />
                </children>
             </HBox>
             <HBox alignment="TOP_CENTER" prefHeight="30.0" prefWidth="200.0" spacing="20.0">
                <children>
                   <ToggleButton fx:id="armDown" mnemonicParsing="false" mouseTransparent="true" text="1" />
-                  <ToggleButton fx:id="armWristDown" mnemonicParsing="false" mouseTransparent="true" text="2" />
                   <ToggleButton fx:id="armBackward" mnemonicParsing="false" mouseTransparent="true" text="3" />
+                  <ToggleButton fx:id="wristLeft" mnemonicParsing="false" mouseTransparent="true" text="2" />
+                  <ToggleButton fx:id="wristDown" mnemonicParsing="false" mouseTransparent="true" text="M" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="30.0" prefWidth="200.0" spacing="10.0">
