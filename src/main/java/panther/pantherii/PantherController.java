@@ -78,12 +78,12 @@ public class PantherController {
 
         new Timer().schedule(new ReadData(ws, aTexts,1000),1000);
 
-        smClamp = new ServoMoteur(servoA,ws,90);
-        smWrist = new ServoMoteur(servoB,ws,7);
-        smC = new ServoMoteur(servoC,ws,90);
-        smD = new ServoMoteur(servoD,ws,160);
-        smE = new ServoMoteur(servoE,ws,45);
-        smRot = new ServoMoteur(servoF,ws,90);
+        smClamp = new ServoMoteur(servoA,90);
+        smWrist = new ServoMoteur(servoB,7);
+        smC = new ServoMoteur(servoC,90);
+        smD = new ServoMoteur(servoD,160);
+        smE = new ServoMoteur(servoE,45);
+        smRot = new ServoMoteur(servoF,90);
 
         servos.add(smClamp);
         servos.add(smWrist);

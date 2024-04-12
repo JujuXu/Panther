@@ -8,10 +8,9 @@ public class ServoMoteur {
     private Text text;
     private double resetValue;
     private double angle;
-    private Websocket ws;
-    public ServoMoteur(Text text, Websocket ws, double resetValue) {
+    private Websocket ws = Main.getWS();
+    public ServoMoteur(Text text, double resetValue) {
         this.text = text;
-        this.ws = ws;
         this.resetValue = resetValue;
 
         setAngle(resetValue);
