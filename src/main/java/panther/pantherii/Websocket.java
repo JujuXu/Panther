@@ -1,5 +1,7 @@
 package panther.pantherii;
 
+import old.Main;
+
 import java.io.*;
 import java.net.Inet4Address;
 import java.net.ServerSocket;
@@ -35,19 +37,19 @@ public class Websocket extends Thread {
         String lh = Inet4Address.getLocalHost().toString();
         String ipv4 = lh.substring(lh.indexOf('/')+1);
 
-        Main.sendLog("Starting WebSocket server on port "+port);
+        PantherInterface.sendLog("Starting WebSocket server on port "+port);
 
         serverSocket = new ServerSocket(80);
 
         if (!serverSocket.isClosed()) {
-            Main.sendLog("WebSocket server started on " + ipv4 + ":" + port);
+            PantherInterface.sendLog("WebSocket server started on " + ipv4 + ":" + port);
 
             getClient();
         }
     }
 
     private void getClient() throws IOException, NoSuchAlgorithmException {
-        Main.sendLog("Awaiting Panther32 to connect...");
+        PantherInterface.sendLog("Awaiting Panther32 to connect...");
 
         client = serverSocket.accept();
         //System.out.println(client.getInetAddress());
@@ -73,8 +75,8 @@ public class Websocket extends Thread {
 
             run = true;
 
-            Main.sendLog("Connection to Panther32 established !");
-            new Timer().schedule(new Ping(Main.getWS(),4*1000),4*1000);
+            PantherInterface.sendLog("Connection to Panther32 established !");
+            new Timer().schedule(new Ping(PantherInterface.getWS(),4*1000),4*1000);
 
             readWS();
         }

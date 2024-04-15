@@ -3,6 +3,7 @@ package panther.pantherii;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import old.Main;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -18,7 +19,7 @@ public class Status extends TimerTask {
     }
     @Override
     public void run() {
-        boolean run = Main.getWS().isConnected();
+        boolean run = PantherInterface.getWS().isConnected();
 
         if(run) {
             status.setFill(Color.LIGHTGREEN);

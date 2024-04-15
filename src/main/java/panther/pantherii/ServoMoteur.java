@@ -1,6 +1,7 @@
 package panther.pantherii;
 
 import javafx.scene.text.Text;
+import old.Main;
 
 import java.io.IOException;
 
@@ -8,7 +9,7 @@ public class ServoMoteur {
     private Text text;
     private double resetValue;
     private double angle;
-    private Websocket ws = Main.getWS();
+    private Websocket ws = PantherInterface.getWS();
     public ServoMoteur(Text text, double resetValue) {
         this.text = text;
         this.resetValue = resetValue;

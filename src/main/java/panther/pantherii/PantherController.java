@@ -7,7 +7,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.QuadCurve;
 import javafx.scene.shape.Rectangle;
@@ -23,7 +22,7 @@ import java.util.Timer;
  */
 public class PantherController {
 
-    Websocket ws = Main.getWS();
+    Websocket ws = PantherInterface.getWS();
 
     private int sliderStep = 1;
 
@@ -63,7 +62,10 @@ public class PantherController {
 
         sliderSpeed.setMax(15);
         sliderSpeed.setMin(1);
-        sliderSpeed.adjustValue(sliderSpeed.getMin());
+        //sliderSpeed.adjustValue(sliderSpeed.getMin());
+
+        sliderSpeed.adjustValue(8);
+
         sliderStep = (int) sliderSpeed.getValue();
 
         mainAnchor.setStyle("-fx-background-color: rgba(0, 0, 0, 0.1); -fx-background-radius: 10;");
@@ -102,7 +104,7 @@ public class PantherController {
 
         new Timer().schedule(new Status(circleStatus, textStatus,1000),1000);
 
-        Main.sendLog("PantherII HUD initialized !");
+        PantherInterface.sendLog("PantherII HUD initialized !");
     }
 
     @FXML

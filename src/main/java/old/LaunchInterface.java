@@ -1,4 +1,6 @@
-package panther.pantherii;
+package old;
+
+import panther.pantherii.PantherInterface;
 
 public class LaunchInterface extends Thread {
     private String[] args;

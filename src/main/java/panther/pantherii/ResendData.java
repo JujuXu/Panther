@@ -1,6 +1,7 @@
 package panther.pantherii;
 
 import javafx.scene.control.Slider;
+import old.Main;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class ResendData extends TimerTask {
 
         int speedPercent = (int) Math.ceil((100/(sliderSpeed.getMax()-sliderSpeed.getMin())*sliderSpeed.getValue()-100/sliderSpeed.getMax()-sliderSpeed.getMin()*1));
 
-        Websocket ws = Main.getWS();
+        Websocket ws = PantherInterface.getWS();
         try {
             ws.sendData("ST"+speedPercent);
         } catch (IOException ignored) {

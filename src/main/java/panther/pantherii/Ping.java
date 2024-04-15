@@ -1,6 +1,6 @@
 package panther.pantherii;
 
-import javafx.scene.text.Text;
+import old.Main;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -34,10 +34,10 @@ public class Ping extends TimerTask {
 
         if(pings.isEmpty()) {
             ws.reset();
-            Main.sendLog("No ping received from Panther32. Reseting WebSocket Client... [Empty]");
+            PantherInterface.sendLog("No ping received from Panther32. Reseting WebSocket Client... [Empty]");
         } else if(millis - pings.get(pings.size()-1) > 10*1000) {
             ws.reset();
-            Main.sendLog("No ping received from Panther32. Reseting WebSocket Client... [Timed out]");
+            PantherInterface.sendLog("No ping received from Panther32. Reseting WebSocket Client... [Timed out]");
         } else {
             new Timer().schedule(new Ping(Main.getWS(),ms),ms);
         }

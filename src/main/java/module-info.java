@@ -5,4 +5,6 @@ module panther.pantherii {
 
     opens panther.pantherii to javafx.fxml;
     exports panther.pantherii;
+    exports old;
+    opens old to javafx.fxml;
 }

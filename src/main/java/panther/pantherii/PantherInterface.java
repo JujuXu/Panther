@@ -8,21 +8,16 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.util.TimerTask;
 
-/**
- * Main class of the Panther application.
- */
 public class PantherInterface extends Application {
-
-    /**
-     * Starts the application.
-     *
-     * @param stage the primary stage of the application
-     * @throws IOException if there is an error loading the FXML file
-     */
-
+    private static Websocket ws;
+    private static String log;
     @Override
     public void start(Stage stage) throws IOException {
+        ws = new Websocket();
+        ws.start();
+
         display();
     }
 
@@ -42,22 +37,28 @@ public class PantherInterface extends Application {
         stage.setScene(scene);
         stage.show();
 
+        // for restarting HUD
+
         stage.setOnCloseRequest(windowEvent -> {
             stage.close();
-            try {
+
+            /*try {
                 display();
             } catch (IOException ignored) {
 
-            }
+            }*/
         });
     }
-
-    /**
-     * Main method of the application.
-     *
-     * @param args command line arguments
-     */
     public static void main(String[] args) {
         launch(args);
+    }
+    public static void sendLog(String str) {
+        log = java.time.LocalTime.now().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm:ss:SSS")) + " > " + str;
+
+        System.out.println(log);
+    }
+
+    public static Websocket getWS() {
+        return ws;
     }
 }

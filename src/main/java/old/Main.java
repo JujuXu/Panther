@@ -1,6 +1,6 @@
-package panther.pantherii;
+package old;
 
-import java.io.IOException;
+import panther.pantherii.Websocket;
 
 public class Main {
     static Websocket ws;
