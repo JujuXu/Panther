@@ -42,6 +42,7 @@ public class PantherInterface extends Application {
         stage.setOnCloseRequest(windowEvent -> {
             stage.close();
 
+            System.exit(0);
             /*try {
                 display();
             } catch (IOException ignored) {
