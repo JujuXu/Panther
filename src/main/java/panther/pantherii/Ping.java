@@ -39,7 +39,7 @@ public class Ping extends TimerTask {
             ws.reset();
             PantherInterface.sendLog("No ping received from Panther32. Reseting WebSocket Client... [Timed out]");
         } else {
-            new Timer().schedule(new Ping(Main.getWS(),ms),ms);
+            new Timer().schedule(new Ping(ws, ms),ms);
         }
     }
 }

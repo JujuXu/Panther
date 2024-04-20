@@ -20,6 +20,7 @@ public class Kinematic {
     private double a;
     private double b;
     private double c;
+    private double d;
     private double l1;
     private double l2;
     private double l3;
@@ -43,6 +44,7 @@ public class Kinematic {
         a = smE.getResetValue();
         b = smD.getResetValue();
         c = smC.getResetValue();
+        d = 0;
 
         //System.out.println("home: a: "+a+" b: "+b+" c: "+c);
 
@@ -120,14 +122,20 @@ public class Kinematic {
         }
 
         double hyp;
-
         run = true;
 
         while (run) {
             hyp = Math.sqrt(xx*xx+yy*yy);
             at = Math.acos(yy/hyp);
             a = at - Math.acos((l1*l1 + xx*xx + yy*yy - l2*l2) / (2*l1 *hyp));
+            if(a + Math.PI/2 < Math.PI/2) {
+                a = 0;
+            }
+
             b = Math.PI-Math.acos((l2*l2+l1*l1-xx*xx-yy*yy)/(2*l1*l2));
+            /*if(b > 90*(Math.PI/180)) {
+                b = Math.PI / 2;
+            }*/
 
             if(Double.isNaN(a) || Double.isNaN(b)) {
                 if(isX) {
@@ -158,9 +166,9 @@ public class Kinematic {
         //System.out.println("setAngles b: "+b);
         //System.out.println("setAngles c: "+((Math.PI / 2) - a - b));
 
-        c = (int) Math.toDegrees((Math.PI / 2) - a - b)+90; // add offset to control pitch of angle c
-        a = (int) Math.toDegrees(a) + 90;
-        b = (int) Math.toDegrees(b) + 90;
+        c = (int) Math.toDegrees((Math.PI / 2) - a - b +d)+90; // add offset to control pitch of angle c
+        a = (int) Math.toDegrees(a)+90;
+        b = (int) Math.toDegrees(b);
 
         sendAngles();
         //System.out.println("x: "+xx+" y: "+yy);
@@ -177,5 +185,14 @@ public class Kinematic {
         smC.sendData();
 
         //System.out.println("sendAngles: a: "+a+" b: "+b+" c: "+c);
+    }
+
+    public void offset(double angle) {
+        double torad = Math.PI/180;
+        d = angle * torad;
+        c = (int) Math.toDegrees((Math.PI / 2) - a*torad - b*torad + d)+180;
+        //System.out.println(a+" "+b);
+        //System.out.println(angle+" "+d+" "+c);
+        sendAngles();
     }
 }

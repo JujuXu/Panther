@@ -85,8 +85,8 @@
             <HBox alignment="TOP_CENTER" prefHeight="30.0" prefWidth="200.0" spacing="20.0">
                <children>
                   <ToggleButton fx:id="armUp" mnemonicParsing="false" mouseTransparent="true" text="7" />
-                  <ToggleButton fx:id="armForward" mnemonicParsing="false" mouseTransparent="true" text="9" />
-                  <ToggleButton fx:id="wristRight" layoutX="42.0" layoutY="10.0" mnemonicParsing="false" mouseTransparent="true" text="8" />
+                  <ToggleButton fx:id="armForward" mnemonicParsing="false" mouseTransparent="true" text="8" />
+                  <ToggleButton fx:id="wristRight" layoutX="42.0" layoutY="10.0" mnemonicParsing="false" mouseTransparent="true" text="9" />
                   <ToggleButton fx:id="wristUp" mnemonicParsing="false" mouseTransparent="true" text="P" />
                </children>
             </HBox>
@@ -101,8 +101,8 @@
             <HBox alignment="TOP_CENTER" prefHeight="30.0" prefWidth="200.0" spacing="20.0">
                <children>
                   <ToggleButton fx:id="armDown" mnemonicParsing="false" mouseTransparent="true" text="1" />
-                  <ToggleButton fx:id="armBackward" mnemonicParsing="false" mouseTransparent="true" text="3" />
-                  <ToggleButton fx:id="wristLeft" mnemonicParsing="false" mouseTransparent="true" text="2" />
+                  <ToggleButton fx:id="armBackward" mnemonicParsing="false" mouseTransparent="true" text="2" />
+                  <ToggleButton fx:id="wristLeft" mnemonicParsing="false" mouseTransparent="true" text="3" />
                   <ToggleButton fx:id="wristDown" mnemonicParsing="false" mouseTransparent="true" text="M" />
                </children>
             </HBox>

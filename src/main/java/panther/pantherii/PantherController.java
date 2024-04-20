@@ -68,6 +68,10 @@ public class PantherController {
 
         sliderStep = (int) sliderSpeed.getValue();
 
+        sliderWristPitch.setMax(90);
+        sliderWristPitch.setMin(-90);
+        sliderWristPitch.adjustValue(0);
+
         mainAnchor.setStyle("-fx-background-color: rgba(0, 0, 0, 0.1); -fx-background-radius: 10;");
 
         ArrayList<Text> tPS = new ArrayList<>();
@@ -80,7 +84,7 @@ public class PantherController {
 
         new Timer().schedule(new ReadData(ws, aTexts,1000),1000);
 
-        smClamp = new ServoMoteur(servoA,90);
+        smClamp = new ServoMoteur(servoA,0);
         smWrist = new ServoMoteur(servoB,7);
         smC = new ServoMoteur(servoC,90);
         smD = new ServoMoteur(servoD,160);
@@ -304,6 +308,8 @@ public class PantherController {
             }
         }
 
+        // ARM UP DOWN
+
         if (code == KeyCode.NUMPAD1) {
             armDown.setSelected(true);
             double value = sliderArmUpDown.getValue();
@@ -315,85 +321,6 @@ public class PantherController {
                 }
 
                 kinematic.setY(sliderArmUpDown.getValue());
-            }
-        }
-
-        if (code == KeyCode.NUMPAD2) {
-            wristLeft.setSelected(true);
-            double value = sliderArmWrist.getValue();
-            if (value > sliderArmWrist.getMin()) {
-                if(!(value - sliderStep < sliderArmWrist.getMin())) {
-                    sliderArmWrist.adjustValue(value - sliderStep);
-                } else {
-                    sliderArmWrist.adjustValue(sliderArmWrist.getMin());
-                }
-
-                wristSend();
-            }
-        }
-
-        if (code == KeyCode.NUMPAD3) {
-            armBackward.setSelected(true);
-            double value = sliderArmFB.getValue();
-            if (value > sliderArmFB.getMin()) {
-                if(!(value - sliderStep < sliderArmFB.getMin())) {
-                    sliderArmFB.adjustValue(value - sliderStep);
-                } else {
-                    sliderArmFB.adjustValue(sliderArmFB.getMin());
-                }
-
-                kinematic.setX(sliderArmFB.getValue());
-            }
-        }
-
-        if (code == KeyCode.NUMPAD4) {
-            armRotLeft.setSelected(true);
-            double value = sliderArmRot.getValue();
-            if (value > sliderArmRot.getMin()) {
-                if(!(value - sliderStep < sliderArmWrist.getMin())) {
-                    sliderArmRot.adjustValue(value - sliderStep);
-                } else {
-                    sliderArmRot.adjustValue(sliderArmRot.getMin());
-                }
-
-                rotSend();
-            }
-        }
-
-        if (code == KeyCode.NUMPAD5) {
-            if (!armHome.isSelected()) {
-                armHome.setSelected(true);
-
-                sliderArmWrist.adjustValue(smWrist.getResetValue());
-                sliderArmUpDown.adjustValue(smC.getResetValue());
-                sliderArmFB.adjustValue(10);
-                sliderArmRot.adjustValue(smRot.getResetValue());
-
-                smWrist.reset();
-                smC.reset();
-                smD.reset();
-                smE.reset();
-                smRot.reset();
-
-                rotSend();
-                clampSend();
-                wristSend();
-
-                kinematic.home();
-            }
-        }
-
-        if (code == KeyCode.NUMPAD6) {
-            armRotRight.setSelected(true);
-            double value = sliderArmRot.getValue();
-            if (value < sliderArmRot.getMax()) {
-                if(!(value + sliderStep > sliderArmRot.getMax())) {
-                    sliderArmRot.adjustValue(value + sliderStep);
-                } else {
-                    sliderArmRot.adjustValue(sliderArmRot.getMax());
-                }
-
-                rotSend();
             }
         }
 
@@ -411,7 +338,53 @@ public class PantherController {
             }
         }
 
+        // ARM FORWARD BACKWARD
+
+        if (code == KeyCode.NUMPAD2) {
+            armBackward.setSelected(true);
+            double value = sliderArmFB.getValue();
+            if (value > sliderArmFB.getMin()) {
+                if(!(value - sliderStep < sliderArmFB.getMin())) {
+                    sliderArmFB.adjustValue(value - sliderStep);
+                } else {
+                    sliderArmFB.adjustValue(sliderArmFB.getMin());
+                }
+
+                kinematic.setX(sliderArmFB.getValue());
+            }
+        }
+
         if (code == KeyCode.NUMPAD8) {
+            armForward.setSelected(true);
+            double value = sliderArmFB.getValue();
+            if (value < sliderArmFB.getMax()) {
+                if(!(value + sliderStep > sliderArmFB.getMax())) {
+                    sliderArmFB.adjustValue(value + sliderStep);
+                } else {
+                    sliderArmFB.adjustValue(sliderArmFB.getMax());
+                }
+
+                kinematic.setX(sliderArmFB.getValue());
+            }
+        }
+
+        // WRIST ROLL
+
+        if (code == KeyCode.NUMPAD3) {
+            wristLeft.setSelected(true);
+            double value = sliderArmWrist.getValue();
+            if (value > sliderArmWrist.getMin()) {
+                if(!(value - sliderStep < sliderArmWrist.getMin())) {
+                    sliderArmWrist.adjustValue(value - sliderStep);
+                } else {
+                    sliderArmWrist.adjustValue(sliderArmWrist.getMin());
+                }
+
+                wristSend();
+            }
+        }
+
+        if (code == KeyCode.NUMPAD9) {
             wristRight.setSelected(true);
             double value = sliderArmWrist.getValue();
             if (value < sliderArmWrist.getMax()) {
@@ -425,17 +398,59 @@ public class PantherController {
             }
         }
 
-        if (code == KeyCode.NUMPAD9) {
-            armForward.setSelected(true);
-            double value = sliderArmFB.getValue();
-            if (value < sliderArmFB.getMax()) {
-                if(!(value + sliderStep > sliderArmFB.getMax())) {
-                    sliderArmFB.adjustValue(value + sliderStep);
+        // ARM ROT
+
+        if (code == KeyCode.NUMPAD6) {
+            armRotLeft.setSelected(true);
+            double value = sliderArmRot.getValue();
+            if (value > sliderArmRot.getMin()) {
+                if(!(value - sliderStep < sliderArmWrist.getMin())) {
+                    sliderArmRot.adjustValue(value - sliderStep);
                 } else {
-                    sliderArmFB.adjustValue(sliderArmFB.getMax());
+                    sliderArmRot.adjustValue(sliderArmRot.getMin());
                 }
 
-                kinematic.setX(sliderArmFB.getValue());
+                rotSend();
+            }
+        }
+
+        if (code == KeyCode.NUMPAD4) {
+            armRotRight.setSelected(true);
+            double value = sliderArmRot.getValue();
+            if (value < sliderArmRot.getMax()) {
+                if(!(value + sliderStep > sliderArmRot.getMax())) {
+                    sliderArmRot.adjustValue(value + sliderStep);
+                } else {
+                    sliderArmRot.adjustValue(sliderArmRot.getMax());
+                }
+
+                rotSend();
+            }
+        }
+
+        if (code == KeyCode.NUMPAD5) {
+            if (!armHome.isSelected()) {
+                armHome.setSelected(true);
+
+                sliderClamp.adjustValue(smClamp.getResetValue());
+                sliderArmWrist.adjustValue(smWrist.getResetValue());
+                sliderArmUpDown.adjustValue(smC.getResetValue());
+                sliderArmFB.adjustValue(10);
+                sliderArmRot.adjustValue(smRot.getResetValue());
+                sliderWristPitch.adjustValue(0);
+
+                //smClamp.reset();
+                smWrist.reset();
+                smC.reset();
+                smD.reset();
+                smE.reset();
+                smRot.reset();
+
+                rotSend();
+                //clampSend();
+                wristSend();
+
+                kinematic.home();
             }
         }
 
@@ -488,6 +503,40 @@ public class PantherController {
                 clampSend();
             }
         }
+
+        // WRIST UP DOWN
+
+        if (code == KeyCode.M) {
+            wristDown.setSelected(true);
+            double value = sliderWristPitch.getValue();
+            if (value > sliderWristPitch.getMin()) {
+                if(!(value - sliderStep < sliderWristPitch.getMin())) {
+                    sliderWristPitch.adjustValue(value - sliderStep);
+                } else {
+                    sliderWristPitch.adjustValue(sliderWristPitch.getMin());
+                }
+
+                wristPitchSend();
+            }
+        }
+
+        if (code == KeyCode.P) {
+            wristUp.setSelected(true);
+            double value = sliderWristPitch.getValue();
+            if (value < sliderWristPitch.getMax()) {
+                if(!(value + sliderStep > sliderWristPitch.getMax())) {
+                    sliderWristPitch.adjustValue(value + sliderStep);
+                } else {
+                    sliderWristPitch.adjustValue(sliderWristPitch.getMax());
+                }
+
+                wristPitchSend();
+            }
+        }
+    }
+
+    private void wristPitchSend() {
+        kinematic.offset(Math.floor(sliderWristPitch.getValue()));
     }
 
     private void clampSend() {
@@ -544,36 +593,44 @@ public class PantherController {
             armDown.setSelected(false);
         }
 
-        if (code == KeyCode.NUMPAD2) {
-            wristLeft.setSelected(false);
+        if (code == KeyCode.NUMPAD7) {
+            armUp.setSelected(false);
         }
 
-        if (code == KeyCode.NUMPAD3) {
+        if (code == KeyCode.NUMPAD2) {
             armBackward.setSelected(false);
         }
 
+        if (code == KeyCode.NUMPAD8) {
+            armForward.setSelected(false);
+        }
+
+        if (code == KeyCode.NUMPAD3) {
+            wristLeft.setSelected(false);
+        }
+
+        if (code == KeyCode.NUMPAD9) {
+            wristRight.setSelected(false);
+        }
+
+        if (code == KeyCode.P) {
+            wristUp.setSelected(false);
+        }
+
+        if (code == KeyCode.M) {
+            wristDown.setSelected(false);
+        }
+
         if (code == KeyCode.NUMPAD4) {
+            armRotRight.setSelected(false);
+        }
+
+        if (code == KeyCode.NUMPAD6) {
             armRotLeft.setSelected(false);
         }
 
         if (code == KeyCode.NUMPAD5) {
             armHome.setSelected(false);
-        }
-
-        if (code == KeyCode.NUMPAD6) {
-            armRotRight.setSelected(false);
-        }
-
-        if (code == KeyCode.NUMPAD7) {
-            armUp.setSelected(false);
-        }
-
-        if (code == KeyCode.NUMPAD8) {
-            wristRight.setSelected(false);
-        }
-
-        if (code == KeyCode.NUMPAD9) {
-            armForward.setSelected(false);
         }
 
         if (code == KeyCode.X) {
