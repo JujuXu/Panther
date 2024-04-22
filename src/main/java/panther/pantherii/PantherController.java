@@ -87,9 +87,9 @@ public class PantherController {
         smClamp = new ServoMoteur(servoA,0);
         smWrist = new ServoMoteur(servoB,7);
         smC = new ServoMoteur(servoC,90);
-        smD = new ServoMoteur(servoD,160);
-        smE = new ServoMoteur(servoE,45);
-        smRot = new ServoMoteur(servoF,90);
+        smD = new ServoMoteur(servoE,160);
+        smE = new ServoMoteur(servoF,45);
+        smRot = new ServoMoteur(servoG,90);
 
         servos.add(smClamp);
         servos.add(smWrist);
@@ -184,13 +184,13 @@ public class PantherController {
     private Text servoC;
 
     @FXML
-    private Text servoD;
-
-    @FXML
     private Text servoE;
 
     @FXML
     private Text servoF;
+
+    @FXML
+    private Text servoG;
 
     @FXML
     private ToggleButton servosAngles;
@@ -410,6 +410,7 @@ public class PantherController {
                     sliderArmRot.adjustValue(sliderArmRot.getMin());
                 }
 
+                //PantherInterface.sendLog("rot-");
                 rotSend();
             }
         }
@@ -424,6 +425,7 @@ public class PantherController {
                     sliderArmRot.adjustValue(sliderArmRot.getMax());
                 }
 
+                //PantherInterface.sendLog("rot+");
                 rotSend();
             }
         }
@@ -556,6 +558,7 @@ public class PantherController {
 
     private void rotSend() {
         smRot.setAngle(Math.floor(sliderArmRot.getValue()));
+        //PantherInterface.sendLog("rotSend");
         smRot.sendData();
     }
 

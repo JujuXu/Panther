@@ -38,6 +38,9 @@ public class ServoMoteur {
 
         try {
             ws.sendData(tosend);
+            /*if(id.equals("servoG")) {
+                PantherInterface.sendLog("ServoMoteurSend");
+            }*/
         } catch (IOException ignored) {
 
         }
