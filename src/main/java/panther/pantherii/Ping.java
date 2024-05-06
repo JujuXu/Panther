@@ -11,7 +11,6 @@ public class Ping extends TimerTask {
     Websocket ws;
     private int ms;
     private ArrayList<Long> pings = new ArrayList<>();
-    private long delta;
     public Ping(Websocket ws, int ms) {
         this.ws = ws;
         this.ms = ms;
