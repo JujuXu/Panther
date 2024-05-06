@@ -130,7 +130,9 @@ public class Kinematic {
             a = at - Math.acos((l1*l1 + xx*xx + yy*yy - l2*l2) / (2*l1 *hyp));
             if(a + Math.PI/2 < Math.PI/2) {
                 a = 0;
-            }
+            } /*else if (a + Math.PI/2 > Math.PI) {
+                a = Math.PI;
+            }*/
 
             b = Math.PI-Math.acos((l2*l2+l1*l1-xx*xx-yy*yy)/(2*l1*l2));
             /*if(b > 90*(Math.PI/180)) {

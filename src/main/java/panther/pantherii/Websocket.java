@@ -142,6 +142,15 @@ public class Websocket extends Thread {
         }
     }
 
+    public void clearPings() {
+        for(int i=0;i<data.size();i++) {
+            if(data.get(i).contains("ping")) {
+                data.remove(i);
+                i--;
+            }
+        }
+    }
+
     public void reset() {
         run = false;
     }
