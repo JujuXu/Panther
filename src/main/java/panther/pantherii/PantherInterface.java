@@ -1,3 +1,8 @@
+/**
+ * @Author: Julien Navez
+ * @Version: 1.0
+ */
+
 package panther.pantherii;
 
 import javafx.application.Application;
@@ -8,11 +13,26 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.util.TimerTask;
+
+/**
+ * JavaFX App for the Panther HUD
+ */
 
 public class PantherInterface extends Application {
+    /**
+     * WebSocket connection instance
+     */
     private static Websocket ws;
+    /**
+     * Log message
+     */
     private static String log;
+
+    /**
+     * Start the WebSocket connection and display the HUD
+     * @param stage
+     * @throws IOException
+     */
     @Override
     public void start(Stage stage) throws IOException {
         ws = new Websocket();
@@ -21,6 +41,10 @@ public class PantherInterface extends Application {
         display();
     }
 
+    /**
+     * Display the HUD
+     * @throws IOException
+     */
     private void display() throws IOException {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(PantherInterface.class.getResource("panther.fxml"));
@@ -37,28 +61,36 @@ public class PantherInterface extends Application {
         stage.setScene(scene);
         stage.show();
 
-        // for restarting HUD
-
+        /**
+         * Close the HUD when the window is closed.
+         * and exit the program because lots of TimerTasks are running and they need to be stopped.
+         */
         stage.setOnCloseRequest(windowEvent -> {
             stage.close();
 
             System.exit(0);
-            /*try {
-                display();
-            } catch (IOException ignored) {
-
-            }*/
         });
     }
+    /**
+     * Main method to launch the HUD
+     * @param args
+     */
     public static void main(String[] args) {
         launch(args);
     }
+    /**
+     * Send a log message to the console with a timestamp.
+     * @param str
+     */
     public static void sendLog(String str) {
         log = java.time.LocalTime.now().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm:ss:SSS")) + " > " + str;
 
         System.out.println(log);
     }
-
+    /**
+     * Get the WebSocket connection instance.
+     * @return WebSocket connection.
+     */
     public static Websocket getWS() {
         return ws;
     }

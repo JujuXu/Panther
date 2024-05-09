@@ -1,6 +1,9 @@
-package panther.pantherii;
+/**
+ * @Author: Julien Navez
+ * @Version: 1.0
+ */
 
-import old.Main;
+package panther.pantherii;
 
 import java.io.*;
 import java.net.Inet4Address;
@@ -12,7 +15,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+/**
+ * This class handles the WebSocket connection and data transmission.
+ */
 public class Websocket extends Thread {
     private InputStream wsIN;
     private OutputStream wsOUT;
@@ -32,6 +37,13 @@ public class Websocket extends Thread {
         }
     }
 
+    /**
+     * This method initializes the WebSocket server on port 80 and waits for a client to connect.
+     * It logs the server start information and then calls the getClient() method to handle the client connection.
+     *
+     * @throws IOException If an I/O error occurs when opening the server socket.
+     * @throws NoSuchAlgorithmException If the SHA-1 algorithm is not available in the environment.
+     */
     public void websocket() throws IOException, NoSuchAlgorithmException {
         int port = 80;
         String lh = Inet4Address.getLocalHost().toString();
@@ -48,6 +60,14 @@ public class Websocket extends Thread {
         }
     }
 
+    /**
+     * This method handles the client connection to the WebSocket server.
+     * It waits for a client to connect, then reads the client's handshake request and sends a handshake response.
+     * If the handshake is successful, it starts a new Ping task and calls the readWS() method to handle WebSocket data.
+     *
+     * @throws IOException If an I/O error occurs when accepting the client connection or reading from the input stream.
+     * @throws NoSuchAlgorithmException If the SHA-1 algorithm is not available in the environment.
+     */
     private void getClient() throws IOException, NoSuchAlgorithmException {
         PantherInterface.sendLog("Awaiting Panther32 to connect...");
 
@@ -82,6 +102,14 @@ public class Websocket extends Thread {
         }
     }
 
+    /**
+     * This method handles the WebSocket data from the client.
+     * It reads data from the WebSocket input stream and adds it to the data ArrayList.
+     * If the WebSocket connection is closed, it calls the closeClient() method and then the getClient() method to wait for a new client connection.
+     *
+     * @throws IOException If an I/O error occurs when reading from the input stream.
+     * @throws NoSuchAlgorithmException If the SHA-1 algorithm is not available in the environment.
+     */
     private void readWS() throws IOException, NoSuchAlgorithmException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(wsIN));
@@ -116,12 +144,23 @@ public class Websocket extends Thread {
         getClient();
     }
 
+    /**
+     * This method closes the WebSocket client connection.
+     * It checks if the client connection is closed and then closes the client socket.
+     * If the client connection is not closed, it keeps trying to close the client connection until it is closed.
+     *
+     * @throws IOException If an I/O error occurs when reading from the input stream.
+     */
     private void closeClient() throws IOException {
         while(!client.isClosed()) {
             client.close();
         }
     }
 
+    /**
+     * Sends a string message over the WebSocket connection.
+     *
+     */
     public void sendData(String str) throws IOException {
         if(wsOUT!=null) {
             if(!serverSocket.isClosed() && !client.isClosed()) {
@@ -131,17 +170,27 @@ public class Websocket extends Thread {
         }
     }
 
+    /**
+     * Retrieves the data received over the WebSocket connection.
+     * @return ArrayList of String data.
+     */
     public ArrayList<String> getData() {
         checkSize();
         return data;
     }
 
+    /**
+     * Checks and maintains the size of the data ArrayList.
+     */
     private void checkSize() {
         while(data.size() > 20) {
             data.remove(0);
         }
     }
 
+    /**
+     * Clears the "ping" messages from the data ArrayList.
+     */
     public void clearPings() {
         for(int i=0;i<data.size();i++) {
             if(data.get(i).contains("ping")) {
@@ -151,14 +200,26 @@ public class Websocket extends Thread {
         }
     }
 
+    /**
+     * Resets the WebSocket connection.
+     */
     public void reset() {
         run = false;
     }
 
+    /**
+     * Checks if the WebSocket connection is active.
+     * @return boolean indicating the connection status.
+     */
     public boolean isConnected() {
         return run;
     }
 
+    /**
+     * Encodes a string message into a byte array for transmission over WebSocket.
+     * @param message The string message to be encoded.
+     * @return The encoded message as a byte array.
+     */
     private byte[] encodeString(String message) {
         byte[] rawData = message.getBytes(StandardCharsets.UTF_8);
 
