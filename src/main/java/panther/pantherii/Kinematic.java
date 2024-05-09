@@ -1,6 +1,7 @@
 /**
  * @author: Julien Navez
  */
+
 package panther.pantherii;
 
 import javafx.scene.control.Slider;

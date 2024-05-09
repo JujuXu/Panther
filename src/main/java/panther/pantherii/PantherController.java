@@ -1,5 +1,5 @@
 /**
- * @autor: Julien Navez
+ * @author: Julien Navez
  */
 
 package panther.pantherii;
