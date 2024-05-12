@@ -15,17 +15,46 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 /**
- * This class handles the WebSocket connection and data transmission.
+ * This class handles the WebSocket connection and data transmission. Website used : https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_a_WebSocket_server_in_Java
  */
 public class Websocket extends Thread {
+    /**
+     * The WebSocket input stream.
+     */
     private InputStream wsIN;
+    /**
+     * The WebSocket output stream.
+     */
     private OutputStream wsOUT;
+    /**
+     * The status of the WebSocket connection. True if the connection is active, false otherwise.
+     * If the connection is not active, the WebSocket server waits for a new client connection.
+     * If the connection is active, the WebSocket server reads data from the client.
+     * If set to false, the loop in the readWS() method is stopped.
+     */
     private boolean run;
-
+    /**
+     * The list of data received over the WebSocket connection.
+     * It contains the messages received from the ESP32 in the form of strings, formatted as opcodes.
+     * It's a raw data list.
+     */
     ArrayList<Integer> stream = new ArrayList<>();
+    /**
+     * The list of decoded data, formatted as strings for each complete message received from the ESP32.
+     */
     ArrayList<String> data = new ArrayList<>();
+    /**
+     * The WebSocket server socket.
+     */
     private ServerSocket serverSocket;
+    /**
+     * The WebSocket client socket.
+     */
     private Socket client;
+
+    /**
+     * Starts the methods chain to setup the websocket server and handle the data transmission / reception.
+     */
 
     @Override
     public void run() {

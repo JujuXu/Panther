@@ -98,8 +98,6 @@ public class PantherController {
         /**
          * The maximum and minimum values for the slider controlling the clamp servo.
          * The slider is used to control the clamp servo's angle.
-         * The slider's maximum value is set to 100.
-         * The slider's minimum value is set to 30.
          */
         sliderClamp.setMax(100);
         sliderClamp.setMin(30);
