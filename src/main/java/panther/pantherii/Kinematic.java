@@ -309,10 +309,10 @@ public class Kinematic {
         xslider.adjustValue(xx);
         yslider.adjustValue(yy);
 
-        //System.out.println("setAngles at: "+at);
-        //System.out.println("setAngles a: "+a);
-        //System.out.println("setAngles b: "+b);
-        //System.out.println("setAngles c: "+((Math.PI / 2) - a - b));
+        System.out.println("setAngles at: "+at);
+        System.out.println("setAngles a: "+a);
+        System.out.println("setAngles b: "+b);
+        System.out.println("setAngles c: "+((Math.PI / 2) - a - b));
 
         /**
          * Calculate the angle 'c' of the robot.
@@ -321,12 +321,12 @@ public class Kinematic {
          * Send the calculated angles to the servo motors.
          */
 
-        c = (int) Math.toDegrees((Math.PI / 2) - a - b +d)+90; // add offset to control pitch of angle c
+        c = (int) Math.toDegrees((Math.PI / 2) - a - b + d)+90; // add offset to control pitch of angle c
         a = (int) Math.toDegrees(a)+90;
         b = (int) Math.toDegrees(b);
 
         sendAngles();
-        //System.out.println("x: "+xx+" y: "+yy);
+        System.out.println("x: "+xx+" y: "+yy);
     }
     /**
      * Sends the calculated angles to Websocket.
@@ -341,7 +341,7 @@ public class Kinematic {
         smC.setAngle(c);
         smC.sendData();
 
-        //System.out.println("sendAngles: a: "+a+" b: "+b+" c: "+c);
+        System.out.println("sendAngles: a: "+a+" b: "+b+" c: "+c);
     }
 
     /**

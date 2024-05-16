@@ -542,34 +542,36 @@ public class PantherController {
          */
         KeyCode code = event.getCode();
 
+        int speedPercent = (int) Math.ceil((100/(sliderSpeed.getMax()-sliderSpeed.getMin())*sliderSpeed.getValue()-100/sliderSpeed.getMax()-sliderSpeed.getMin()*1));
+
         /**
          * ZQSD keys are used for moving the robot forward, backward, left, and right.
          */
         if (code == KeyCode.Z) {
             if (!forward.isSelected()) {
                 forward.setSelected(true);
-                ws.sendData("Z");
+                ws.sendData("Z"+speedPercent);
             }
         }
 
         if (code == KeyCode.Q) {
             if (!left.isSelected()) {
                 left.setSelected(true);
-                ws.sendData("Q");
+                ws.sendData("Q"+speedPercent);
             }
         }
 
         if (code == KeyCode.S) {
             if (!backward.isSelected()) {
                 backward.setSelected(true);
-                ws.sendData("S");
+                ws.sendData("S"+speedPercent);
             }
         }
 
         if (code == KeyCode.D) {
             if (!right.isSelected()) {
                 right.setSelected(true);
-                ws.sendData("D");
+                ws.sendData("D"+speedPercent);
             }
         }
 

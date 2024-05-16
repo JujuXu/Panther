@@ -19,7 +19,7 @@ public class Ping extends TimerTask {
     /**
      * The WebSocket connection.
      */
-    Websocket ws;
+    Websocket ws = PantherInterface.getWS();
     /**
      * The interval for the ping task in milliseconds.
      */
@@ -31,11 +31,9 @@ public class Ping extends TimerTask {
 
     /**
      * Constructor for the Ping class.
-     * @param ws The WebSocket connection.
      * @param ms The interval for the ping task in milliseconds.
      */
-    public Ping(Websocket ws, int ms) {
-        this.ws = ws;
+    public Ping(int ms) {
         this.ms = ms;
     }
 
@@ -51,23 +49,30 @@ public class Ping extends TimerTask {
 
         long millis = ZonedDateTime.now().toInstant().toEpochMilli();
 
+        System.out.print("d");
+        System.out.println(astr.toString());
+        System.out.println("ddddddddddddddddddddddddddddd");
+
         if(!astr.isEmpty()) {
             for(int i = 0; i<astr.size(); i++) {
                 String str = astr.get(i);
 
                 if(str.contains("ping")) {
                     pings.add(millis);
+                    System.out.println("yes");
                 }
 
                 ws.clearPings();
             }
         }
 
+        //PantherInterface.sendLog(pings.toString());
+
         if(pings.isEmpty()) {
             ws.reset();
             PantherInterface.sendLog("No ping received from Panther32. Reseting WebSocket Client...");
         } else {
-            new Timer().schedule(new Ping(ws, ms),ms);
+            new Timer().schedule(new Ping(ms),ms);
         }
     }
 }
