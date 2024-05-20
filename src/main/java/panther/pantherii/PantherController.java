@@ -751,7 +751,7 @@ public class PantherController {
                 sliderSpeed.adjustValue(value - 1);
                 sliderStep = (int) value;
 
-                stepSend(); // Send the speed value to the robot
+                //stepSend(); // Send the speed value to the robot
             }
         }
 
@@ -762,7 +762,7 @@ public class PantherController {
                 sliderSpeed.adjustValue(value + 1);
                 sliderStep = (int) value;
 
-                stepSend(); // Send the speed value to the robot
+                //stepSend(); // Send the speed value to the robot
             }
         }
 

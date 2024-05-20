@@ -65,14 +65,14 @@ public class ResendData extends TimerTask {
          * The speed is calculated as a percentage of the maximum speed.
          * The speed is then sent to the ESP32.
          */
-        int speedPercent = (int) Math.ceil((100/(sliderSpeed.getMax()-sliderSpeed.getMin())*sliderSpeed.getValue()-100/sliderSpeed.getMax()-sliderSpeed.getMin()*1));
+        /*int speedPercent = (int) Math.ceil((100/(sliderSpeed.getMax()-sliderSpeed.getMin())*sliderSpeed.getValue()-100/sliderSpeed.getMax()-sliderSpeed.getMin()*1));
 
         Websocket ws = PantherInterface.getWS();
         try {
             ws.sendData("ST"+speedPercent);
         } catch (IOException ignored) {
 
-        }
+        }*/
 
         new Timer().schedule(new ResendData(servos,sliderSpeed,ms),ms);
     }
