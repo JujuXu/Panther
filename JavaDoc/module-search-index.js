@@ -1,1 +1,0 @@
-moduleSearchIndex = [{"l":"panther.pantherii"}];updateSearchResults();
