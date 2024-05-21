@@ -164,7 +164,7 @@ public class PantherController {
          * The ServoMoteur instances are used to control the robot's movements.
          * The ServoMoteur instances are initialized with the servo names and initial angles.
          */
-        smClamp = new ServoMoteur(servoA,0);
+        smClamp = new ServoMoteur(servoA,30);
         smWrist = new ServoMoteur(servoB,7);
         smC = new ServoMoteur(servoC,90);
         smE = new ServoMoteur(servoE,160);

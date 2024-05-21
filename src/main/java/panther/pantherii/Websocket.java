@@ -124,7 +124,7 @@ public class Websocket extends Thread {
             run = true;
 
             PantherInterface.sendLog("Connection to Panther32 established !");
-            //new Timer().schedule(new Ping(3*1000),3*1000);
+            new Timer().schedule(new Ping(3*1000),3*1000);
 
             readWS();
         }
@@ -163,7 +163,7 @@ public class Websocket extends Thread {
                     }
 
                     data.add(msg.toString());
-                    System.out.println(msg);
+                    //System.out.println(msg);
                 }
             }
         }
@@ -203,8 +203,9 @@ public class Websocket extends Thread {
      * @return ArrayList of String data.
      */
     public ArrayList<String> getData() {
+        ArrayList<String> dataR = new ArrayList<>(data);
         checkSize();
-        return data;
+        return dataR;
     }
 
     /**

@@ -102,6 +102,7 @@ public class Kinematic {
      * Using arc cosine functions can return NaN values.
      */
     private boolean run;
+    private int aD, bD, cD, dD;
     /**
      * Constructor for the Kinematic class.
      * Initializes the servo motors, segment lengths, and sliders.
@@ -147,6 +148,8 @@ public class Kinematic {
 
         x.add(125d);
         y.add(105d);
+
+        offset(0);
 
         setAngles(true);
     }
@@ -264,9 +267,9 @@ public class Kinematic {
             }
 
             b = Math.PI-Math.acos((l2*l2+l1*l1-xx*xx-yy*yy)/(2*l1*l2));
-            /*if(b > 90*(Math.PI/180)) {
-                b = Math.PI / 2;
-            }*/
+            if(b > Math.PI/2) {
+                b = Math.PI/2;
+            }
 
             /**
              * If the calculated angles are not a number (NaN), adjust the x and y coordinates accordingly.
@@ -309,10 +312,11 @@ public class Kinematic {
         xslider.adjustValue(xx);
         yslider.adjustValue(yy);
 
-        System.out.println("setAngles at: "+at);
-        System.out.println("setAngles a: "+a);
-        System.out.println("setAngles b: "+b);
-        System.out.println("setAngles c: "+((Math.PI / 2) - a - b));
+        //System.out.println("setAngles at: "+at);
+        //System.out.println("setAngles a: "+a);
+        //System.out.println("setAngles b: "+b);
+        //System.out.println("setAngles c: "+((Math.PI / 2) - a - b));
+        //System.out.println("setAngles d: "+d);
 
         /**
          * Calculate the angle 'c' of the robot.
@@ -320,28 +324,30 @@ public class Kinematic {
          * Convert the angles 'a' and 'b' to degrees.
          * Send the calculated angles to the servo motors.
          */
+        c = (Math.PI / 2) - a - b + d;
 
-        c = (int) Math.toDegrees((Math.PI / 2) - a - b + d)+90; // add offset to control pitch of angle c
-        a = (int) Math.toDegrees(a)+90;
-        b = (int) Math.toDegrees(b);
+        cD = (int) Math.toDegrees(c)+90; // add offset to control pitch of angle c
+        aD = (int) Math.toDegrees(a)+90;
+        bD = (int) Math.toDegrees(b)+90;
 
         sendAngles();
-        System.out.println("x: "+xx+" y: "+yy);
+        //System.out.println("x: "+xx+" y: "+yy);
     }
     /**
      * Sends the calculated angles to Websocket.
      */
     private void sendAngles() {
-        smF.setAngle(a);
+        smF.setAngle(aD);
         smF.sendData();
 
-        smE.setAngle(b);
+        smE.setAngle(bD);
         smE.sendData();
 
-        smC.setAngle(c);
+        smC.setAngle(cD);
         smC.sendData();
 
-        System.out.println("sendAngles: a: "+a+" b: "+b+" c: "+c);
+        //System.out.println("sendAngles rad: a: "+a+" b: "+b+" c: "+c+" d: "+d);
+        //System.out.println("sendAngles deg: a: "+aD+" b: "+bD+" c: "+cD+" d: "+dD);
     }
 
     /**
@@ -351,11 +357,16 @@ public class Kinematic {
      * @param angle A double representing the angle by which to adjust the robot's wrist up and down position.
      */
     public void offset(double angle) {
-        double torad = Math.PI/180;
-        d = angle * torad;
-        c = (int) Math.toDegrees((Math.PI / 2) - a*torad - b*torad + d)+180;
-        //System.out.println(a+" "+b);
-        //System.out.println(angle+" "+d+" "+c);
+        //System.out.println("angle : "+angle);
+        d = angle * Math.PI/180;
+        dD = (int) angle + 90;
+
+        c = (Math.PI / 2) - a - b + d;
+        cD = (int) Math.toDegrees(c)+90;
+
+        //System.out.println("offset rad: a: "+a+" b: "+b+" c: "+c+" d: "+d);
+        //System.out.println("offset deg: a: "+aD+" b: "+bD+" c: "+cD+" d: "+dD);
+
         sendAngles();
     }
 }

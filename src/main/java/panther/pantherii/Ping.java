@@ -49,24 +49,17 @@ public class Ping extends TimerTask {
 
         long millis = ZonedDateTime.now().toInstant().toEpochMilli();
 
-        System.out.print("d");
-        System.out.println(astr.toString());
-        System.out.println("ddddddddddddddddddddddddddddd");
-
         if(!astr.isEmpty()) {
             for(int i = 0; i<astr.size(); i++) {
                 String str = astr.get(i);
 
                 if(str.contains("ping")) {
                     pings.add(millis);
-                    System.out.println("yes");
                 }
 
                 ws.clearPings();
             }
         }
-
-        //PantherInterface.sendLog(pings.toString());
 
         if(pings.isEmpty()) {
             ws.reset();
