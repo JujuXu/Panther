@@ -52,19 +52,21 @@ public class ReadData extends TimerTask {
         ArrayList<String> astr = ws.getData();
 
         if(!astr.isEmpty()) {
-            String PS;
+            String value;
             for(int i = 0; i<astr.size(); i++) {
                 String str = astr.get(i);
 
                 if(str.contains("PS_")) {
-                    PS = str.substring(str.indexOf("=")+1);
+                    value = str.substring(str.indexOf("=")+1);
+                    value.replace("" +
+                            "","");
 
                     if(str.contains("FRONT")) {
-                        aTexts.get(0).get(0).setText(PS+" cm");
+                        aTexts.get(0).get(0).setText(value+" cm");
                     } else if(str.contains("LEFT")) {
-                        aTexts.get(0).get(1).setText(PS+" cm");
+                        aTexts.get(0).get(1).setText(value+" cm");
                     } else if(str.contains("RIGHT")) {
-                        aTexts.get(0).get(2).setText(PS+" cm");
+                        aTexts.get(0).get(2).setText(value+" cm");
                     }
                 }
             }

@@ -13,7 +13,7 @@
 
 <AnchorPane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#keyboardPressed" onKeyReleased="#keyboardReleased" prefHeight="850.0" prefWidth="1550.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="panther.pantherii.PantherController">
    <children>
-      <VBox alignment="TOP_CENTER" prefHeight="300.0" prefWidth="100.0">
+      <VBox layoutX="20.0" prefHeight="300.0" prefWidth="125.0">
          <children>
             <HBox alignment="CENTER" prefHeight="25.0" prefWidth="200.0" spacing="5.0">
                <children>
@@ -40,14 +40,70 @@
                      </font></Text>
                </children>
             </AnchorPane>
-            <HBox alignment="CENTER" prefHeight="25.0" prefWidth="200.0" spacing="10.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="100.0" spacing="10.0">
                <children>
-                  <Text fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="Speed :">
+                  <Text fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="ACC X :">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Text>
-                  <Text fx:id="textSpeed" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="0 m/s">
+                  <Text fx:id="accX" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="0" textAlignment="RIGHT">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="86.0" prefHeight="25.0" prefWidth="100.0" spacing="10.0">
+               <children>
+                  <Text fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="ACC Y :">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="accY" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="0">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="112.0" prefHeight="25.0" prefWidth="100.0" spacing="10.0">
+               <children>
+                  <Text fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="ACC Z :">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="accZ" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="0">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="137.0" prefHeight="25.0" prefWidth="100.0" spacing="10.0">
+               <children>
+                  <Text fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="CURR 1 :">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="curr1" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="0 A">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="163.0" prefHeight="25.0" prefWidth="100.0" spacing="10.0">
+               <children>
+                  <Text fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="CURR 2 :">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="curr2" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="0 A">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>

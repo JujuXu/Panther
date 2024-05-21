@@ -333,6 +333,10 @@ public class Kinematic {
         aD = (int) Math.toDegrees(a)+90;
         bD = (int) Math.toDegrees(b)+90;
 
+        if(cD > 180) {
+            cD = 180;
+        }
+
         sendAngles();
         //System.out.println("x: "+xx+" y: "+yy);
     }
@@ -360,11 +364,15 @@ public class Kinematic {
      * @param angle A double representing the angle by which to adjust the robot's wrist up and down position.
      */
     public void offset(double angle) {
-        //System.out.println("angle : "+angle);
+        System.out.println("angle : "+angle);
         d = angle * Math.PI/180;
 
         c = (Math.PI / 2) - a - b + d;
         cD = (int) Math.toDegrees(c)+90;
+
+        if(cD > 180) {
+            cD = 180;
+        }
 
         //System.out.println("offset rad: a: "+a+" b: "+b+" c: "+c+" d: "+d);
         //System.out.println("offset deg: a: "+aD+" b: "+bD+" c: "+cD+" d: "+dD);

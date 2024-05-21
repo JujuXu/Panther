@@ -144,6 +144,20 @@ public class PantherController {
         tPS.add(textRightProximity);
 
         /**
+         * The ArrayList of Text instances representing the accelerometer and current sensors.
+         * The accelerometer sensors are used to detect the robot's movements.
+         * The accelerometer sensors are displayed as Text instances showing the values of the x-axis, y-axis, and z-axis.
+         * The current sensors are used to detect the current of the motors.
+         * The current sensors are displayed as Text instances showing the values of the motor 1 and motor 2.
+         */
+        ArrayList<Text> tSensors = new ArrayList<>();
+        tSensors.add(accX);
+        tSensors.add(accY);
+        tSensors.add(accZ);
+        tSensors.add(curr1);
+        tSensors.add(curr2);
+
+        /**
          * The ArrayList of ArrayList of Text instances representing the proximity sensors.
          * The proximity sensors are used to detect obstacles in front of, to the left of, and to the right of the robot.
          * The proximity sensors are displayed as QuadCurve shapes in the user interface.
@@ -151,6 +165,7 @@ public class PantherController {
          */
         ArrayList<ArrayList<Text>> aTexts = new ArrayList<>();
         aTexts.add(tPS);
+        aTexts.add(tSensors);
 
         /**
          * The TimerTask for reading data from the WebSocket.
@@ -212,6 +227,21 @@ public class PantherController {
         PantherInterface.sendLog("PantherII HUD initialized !");
     }
 
+    /**
+     * Text for the value of the accelerometer's x-axis.
+     */
+    @FXML
+    private Text accX;
+    /**
+     * Text for the value of the accelerometer's y-axis.
+     */
+    @FXML
+    private Text accY;
+    /**
+     * Text for the value of the accelerometer's z-axis.
+     */
+    @FXML
+    private Text accZ;
     /**
      * ToggleButton for moving the robot arm backward.
      */
@@ -295,7 +325,16 @@ public class PantherController {
      */
     @FXML
     private ToggleButton clampTighten;
-
+    /**
+     * Text representing the current of the motor 1.
+     */
+    @FXML
+    private Text curr1;
+    /**
+     * Text representing the current of the motor 2.
+     */
+    @FXML
+    private Text curr2;
     /**
      * ToggleButton for moving the robot forward.
      */
@@ -495,12 +534,6 @@ public class PantherController {
     private Text textRightProximity;
 
     /**
-     * Text representing the speed of the robot.
-     */
-    @FXML
-    private Text textSpeed;
-
-    /**
      * Text representing the status of the robot.
      */
     @FXML
@@ -543,6 +576,7 @@ public class PantherController {
         KeyCode code = event.getCode();
 
         int speedPercent = (int) Math.ceil((100/(sliderSpeed.getMax()-sliderSpeed.getMin())*sliderSpeed.getValue()-100/sliderSpeed.getMax()-sliderSpeed.getMin()*1));
+        //System.out.println(speedPercent);
 
         /**
          * ZQSD keys are used for moving the robot forward, backward, left, and right.
