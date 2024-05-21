@@ -25,10 +25,6 @@ public class ResendData extends TimerTask {
      */
     private ArrayList<ServoMoteur> servos;
     /**
-     * The speed to be updated with the data.
-     */
-    private Slider sliderSpeed;
-    /**
      * The interval for the resend data task in milliseconds.
      */
     private int ms;
@@ -36,12 +32,10 @@ public class ResendData extends TimerTask {
     /**
      * Constructor for the ResendData class.
      * @param servos The servos to be updated with the data.
-     * @param sliderSpeed The speed to be updated with the data.
      * @param ms The interval for the resend data task in milliseconds.
      */
-    public ResendData(ArrayList<ServoMoteur> servos, Slider sliderSpeed, int ms) {
+    public ResendData(ArrayList<ServoMoteur> servos, int ms) {
         this.servos = servos;
-        this.sliderSpeed = sliderSpeed;
         this.ms = ms;
     }
 
@@ -61,19 +55,6 @@ public class ResendData extends TimerTask {
             sm.sendData();
         }
 
-        /**
-         * The speed is calculated as a percentage of the maximum speed.
-         * The speed is then sent to the ESP32.
-         */
-        /*int speedPercent = (int) Math.ceil((100/(sliderSpeed.getMax()-sliderSpeed.getMin())*sliderSpeed.getValue()-100/sliderSpeed.getMax()-sliderSpeed.getMin()*1));
-
-        Websocket ws = PantherInterface.getWS();
-        try {
-            ws.sendData("ST"+speedPercent);
-        } catch (IOException ignored) {
-
-        }*/
-
-        new Timer().schedule(new ResendData(servos,sliderSpeed,ms),ms);
+        new Timer().schedule(new ResendData(servos,ms),ms);
     }
 }

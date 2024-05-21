@@ -318,7 +318,7 @@
                         <HBox alignment="CENTER" prefHeight="25.0" prefWidth="200.0">
                            <children>
                               <ToggleButton fx:id="armRotLeft" mnemonicParsing="false" mouseTransparent="true" text="4" />
-                              <Slider fx:id="sliderArmRot" mouseTransparent="true" prefWidth="75.0" showTickMarks="true" value="50.0" />
+                              <Slider fx:id="sliderArmRot" mouseTransparent="true" prefWidth="75.0" scaleX="-1.0" showTickMarks="true" value="50.0" />
                               <ToggleButton fx:id="armRotRight" mnemonicParsing="false" mouseTransparent="true" text="6" />
                            </children>
                         </HBox>

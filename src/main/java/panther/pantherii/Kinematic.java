@@ -102,7 +102,10 @@ public class Kinematic {
      * Using arc cosine functions can return NaN values.
      */
     private boolean run;
-    private int aD, bD, cD, dD;
+    /**
+     * The corresponding angle in degrees.
+     */
+    private int aD, bD, cD;
     /**
      * Constructor for the Kinematic class.
      * Initializes the servo motors, segment lengths, and sliders.
@@ -359,7 +362,6 @@ public class Kinematic {
     public void offset(double angle) {
         //System.out.println("angle : "+angle);
         d = angle * Math.PI/180;
-        dD = (int) angle + 90;
 
         c = (Math.PI / 2) - a - b + d;
         cD = (int) Math.toDegrees(c)+90;

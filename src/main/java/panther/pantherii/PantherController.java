@@ -184,7 +184,7 @@ public class PantherController {
          * The ResendData task is scheduled to run every 2000 milliseconds.
          */
 
-        new Timer().schedule(new ResendData(servos,sliderSpeed, 2*1000),1000);
+        new Timer().schedule(new ResendData(servos, 2*1000),1000);
 
         /**
          * The initial values for the sliders controlling the robot's movements.
@@ -680,7 +680,7 @@ public class PantherController {
          * This slider controls the robot's arm rotation.
          */
         if (code == KeyCode.NUMPAD6) {
-            armRotLeft.setSelected(true);
+            armRotRight.setSelected(true);
             double value = sliderArmRot.getValue();
             if (value > sliderArmRot.getMin()) {
                 if(!(value - sliderStep < sliderArmWrist.getMin())) {
@@ -695,7 +695,7 @@ public class PantherController {
         }
 
         if (code == KeyCode.NUMPAD4) {
-            armRotRight.setSelected(true);
+            armRotLeft.setSelected(true);
             double value = sliderArmRot.getValue();
             if (value < sliderArmRot.getMax()) {
                 if(!(value + sliderStep > sliderArmRot.getMax())) {
@@ -750,8 +750,6 @@ public class PantherController {
             if (value > sliderSpeed.getMin()) {
                 sliderSpeed.adjustValue(value - 1);
                 sliderStep = (int) value;
-
-                //stepSend(); // Send the speed value to the robot
             }
         }
 
@@ -761,8 +759,6 @@ public class PantherController {
             if (value < sliderSpeed.getMax()) {
                 sliderSpeed.adjustValue(value + 1);
                 sliderStep = (int) value;
-
-                //stepSend(); // Send the speed value to the robot
             }
         }
 
@@ -853,15 +849,6 @@ public class PantherController {
     }
 
     /**
-     * The stepSend method sends the speed value to the robot.
-     * The speed value is controlled by the sliderSpeed slider and independent of the kinematic class.
-     */
-    private void stepSend() throws IOException {
-        int speedPercent = (int) Math.ceil((100/(sliderSpeed.getMax()-sliderSpeed.getMin())*sliderSpeed.getValue()-100/sliderSpeed.getMax()-sliderSpeed.getMin()*1));
-        ws.sendData("ST"+speedPercent);
-    }
-
-    /**
      * The wristSend method sends the wrist angle to the robot.
      * The wrist angle is controlled by the sliderArmWrist slider and independent of the kinematic class.
      */
@@ -941,11 +928,11 @@ public class PantherController {
         }
 
         if (code == KeyCode.NUMPAD4) {
-            armRotRight.setSelected(false);
+            armRotLeft.setSelected(false);
         }
 
         if (code == KeyCode.NUMPAD6) {
-            armRotLeft.setSelected(false);
+            armRotRight.setSelected(false);
         }
 
         if (code == KeyCode.NUMPAD5) {
