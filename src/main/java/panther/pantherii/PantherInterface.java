@@ -1,7 +1,3 @@
-/**
- * @author: Julien Navez
- */
-
 package panther.pantherii;
 
 import javafx.application.Application;
