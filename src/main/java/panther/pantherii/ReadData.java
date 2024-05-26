@@ -1,5 +1,7 @@
 package panther.pantherii;
 
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.QuadCurve;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
@@ -23,6 +25,10 @@ public class ReadData extends TimerTask {
      * The interval for the read data task in milliseconds.
      */
     private int ms;
+    /**
+     * The curves to be updated with the data.
+     */
+    private ArrayList<QuadCurve> psCurves;
 
     /**
      * Constructor for the ReadData class.
@@ -30,10 +36,11 @@ public class ReadData extends TimerTask {
      * @param aTexts The texts to be updated with the data.
      * @param ms The interval for the read data task in milliseconds.
      */
-    public ReadData(Websocket ws, ArrayList<ArrayList<Text>> aTexts, int ms) {
+    public ReadData(Websocket ws, ArrayList<ArrayList<Text>> aTexts, int ms, ArrayList<QuadCurve> psCurves) {
         this.ws = ws;
         this.aTexts = aTexts;
         this.ms = ms;
+        this.psCurves = psCurves;
     }
 
     /**
@@ -48,26 +55,61 @@ public class ReadData extends TimerTask {
         ArrayList<String> astr = ws.getData();
 
         if(!astr.isEmpty()) {
-            String value;
+            String fstr;
             for(int i = 0; i<astr.size(); i++) {
                 String str = astr.get(i);
+                int value = -1;
 
-                if(str.contains("PS_")) {
-                    value = str.substring(str.indexOf("=")+1);
-                    value.replace("" +
-                            "","");
+                if(str.contains("=")) {
+                    fstr = str.substring(str.indexOf("=")+1);
+                    try {
+                        value = Integer.parseInt(fstr);
+                    } catch (NumberFormatException e) {
+                        continue;
+                    }
 
-                    if(str.contains("FRONT")) {
-                        aTexts.get(0).get(0).setText(value+" cm");
-                    } else if(str.contains("LEFT")) {
-                        aTexts.get(0).get(1).setText(value+" cm");
-                    } else if(str.contains("RIGHT")) {
-                        aTexts.get(0).get(2).setText(value+" cm");
+                    if(str.contains("PS_")) {
+                        if(str.contains("FRONT")) {
+                            aTexts.get(0).get(0).setText(value+" cm");
+                            if(value < 15) {
+                                psCurves.get(0).setFill(Paint.valueOf("RED"));
+                            } else {
+                                psCurves.get(0).setFill(Paint.valueOf("rgba(255, 255, 255, 0)"));
+                            }
+                        } else if(str.contains("LEFT")) {
+                            aTexts.get(0).get(1).setText(value+" cm");
+                            if(value < 15) {
+                                psCurves.get(1).setFill(Paint.valueOf("RED"));
+                            } else {
+                                psCurves.get(1).setFill(Paint.valueOf("rgba(255, 255, 255, 0)"));
+                            }
+                        } else if(str.contains("RIGHT")) {
+                            aTexts.get(0).get(2).setText(value+" cm");
+                            if(value < 15) {
+                                psCurves.get(2).setFill(Paint.valueOf("RED"));
+                            } else {
+                                psCurves.get(2).setFill(Paint.valueOf("rgba(255, 255, 255, 0)"));
+                            }
+                        }
+                    } else if(str.contains("ACC_")) {
+                        if(str.contains("X")) {
+                            aTexts.get(1).get(0).setText(value+"");
+                        } else if(str.contains("Y")) {
+                            aTexts.get(1).get(1).setText(value+"");
+                        } else if(str.contains("Z")) {
+                            aTexts.get(1).get(2).setText(value+"");
+                        }
+                    } else if (str.contains("CURR_")) {
+                        if(str.contains("A")) {
+                            aTexts.get(1).get(3).setText(value+"");
+                        } else if(str.contains("B")) {
+                            aTexts.get(1).get(4).setText(value+"");
+                        }
                     }
                 }
             }
         }
 
-        new Timer().schedule(new ReadData(ws,aTexts,ms),ms);
+        new Timer().schedule(new ReadData(ws,aTexts,ms,psCurves),ms);
     }
 }

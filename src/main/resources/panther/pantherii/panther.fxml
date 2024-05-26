@@ -172,10 +172,10 @@
                   <ToggleButton fx:id="armHome" mnemonicParsing="false" mouseTransparent="true" text="5" />
                </children>
             </HBox>
-            <ToggleButton fx:id="servosAngles" mnemonicParsing="false" onAction="#servosAnglesPressed" text="Show Servos Angles" />
+            <ToggleButton fx:id="servosAngles" mnemonicParsing="false" onAction="#servosAnglesPressed" selected="true" text="Show Servos Angles" />
             <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <HBox fx:id="showServo1" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="3.0" visible="false">
+                  <HBox fx:id="showServo1" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="3.0">
                      <children>
                         <Text fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="Servo 1:">
                            <font>
@@ -194,7 +194,7 @@
                         </Text>
                      </children>
                   </HBox>
-                  <HBox fx:id="showServo2" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="3.0" visible="false">
+                  <HBox fx:id="showServo2" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="3.0">
                      <children>
                         <Text fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="Servo 2:">
                            <font>
@@ -213,7 +213,7 @@
                         </Text>
                      </children>
                   </HBox>
-                  <HBox fx:id="showServo3" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="3.0" visible="false">
+                  <HBox fx:id="showServo3" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="3.0">
                      <children>
                         <Text fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="Servo 3:">
                            <font>
@@ -232,7 +232,7 @@
                         </Text>
                      </children>
                   </HBox>
-                  <HBox fx:id="showServo4" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="3.0" visible="false">
+                  <HBox fx:id="showServo4" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="3.0">
                      <children>
                         <Text fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="Servo 4:">
                            <font>
@@ -251,7 +251,7 @@
                         </Text>
                      </children>
                   </HBox>
-                  <HBox fx:id="showServo5" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="3.0" visible="false">
+                  <HBox fx:id="showServo5" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="3.0">
                      <children>
                         <Text fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="Servo 5:">
                            <font>
@@ -270,7 +270,7 @@
                         </Text>
                      </children>
                   </HBox>
-                  <HBox fx:id="showServo6" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="3.0" visible="false">
+                  <HBox fx:id="showServo6" alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="3.0">
                      <children>
                         <Text fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="Servo 6:">
                            <font>

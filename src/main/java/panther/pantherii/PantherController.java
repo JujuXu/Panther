@@ -154,6 +154,15 @@ public class PantherController {
         tSensors.add(curr2);
 
         /**
+         * The ArrayList of QuadCurve instances representing the proximity sensors.
+         */
+
+        ArrayList<QuadCurve> psCurves = new ArrayList<>();
+        psCurves.add(frontProximity);
+        psCurves.add(leftProximity);
+        psCurves.add(rightProximity);
+
+        /**
          * The ArrayList of ArrayList of Text instances representing the proximity sensors.
          * The proximity sensors are used to detect obstacles in front of, to the left of, and to the right of the robot.
          * The proximity sensors are displayed as QuadCurve shapes in the user interface.
@@ -168,7 +177,7 @@ public class PantherController {
          * The ReadData task reads data from the WebSocket and updates the user interface components.
          * The ReadData task is scheduled to run every 1000 milliseconds.
          */
-        new Timer().schedule(new ReadData(ws, aTexts,1000),1000);
+        new Timer().schedule(new ReadData(ws, aTexts,1000,psCurves),1000);
 
         /**
          * The ServoMoteur instances representing the robot's servos.
