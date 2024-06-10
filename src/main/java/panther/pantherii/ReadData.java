@@ -55,9 +55,73 @@ public class ReadData extends TimerTask {
         ArrayList<String> astr = ws.getData();
 
         if(!astr.isEmpty()) {
-            String fstr;
-            for(int i = 0; i<astr.size(); i++) {
+            String strv;
+            double value;
+
+            for(String s : astr) {
+                value = Double.NaN;
+                strv = "";
+
+                for(int i=0;i<s.length()-1;i++) {
+                    try {
+                        value = Double.parseDouble(s.substring(i));
+                    } catch (NumberFormatException e) {
+
+                    }
+
+                    if(!Double.isNaN(value)) {
+                        strv = s.substring(0,i);
+                    }
+                }
+
+                if(strv.equals("l")) {
+                    //System.out.println("l"+value);
+                    aTexts.get(0).get(1).setText(value+"");
+                    if(value < 15) {
+                        psCurves.get(1).setFill(Paint.valueOf("RED"));
+                    } else {
+                        psCurves.get(1).setFill(Paint.valueOf("rgba(255, 255, 255, 0)"));
+                    }
+                } else if(strv.equals("f")) {
+                    //System.out.println("f"+value);
+                    aTexts.get(0).get(0).setText(value+"");
+                    if(value < 15) {
+                        psCurves.get(0).setFill(Paint.valueOf("RED"));
+                    } else {
+                        psCurves.get(0).setFill(Paint.valueOf("rgba(255, 255, 255, 0)"));
+                    }
+                } else if(strv.equals("r")) {
+                    //System.out.println("r"+value);
+                    aTexts.get(0).get(2).setText(value+"");
+                    if(value < 15) {
+                        psCurves.get(2).setFill(Paint.valueOf("RED"));
+                    } else {
+                        psCurves.get(2).setFill(Paint.valueOf("rgba(255, 255, 255, 0)"));
+                    }
+                } else if(strv.equals("ca")) {
+                    //System.out.println("ca"+value);
+                    aTexts.get(1).get(3).setText(value+" A");
+                } else if(strv.equals("cb")) {
+                    //System.out.println("cb"+value);
+                    aTexts.get(1).get(4).setText(value+" A");
+                } else if(strv.equals("ax")) {
+                    //System.out.println("ax"+value);
+                    aTexts.get(1).get(0).setText(value+"");
+                } else if(strv.equals("ay")) {
+                    //System.out.println("ay"+value);
+                    aTexts.get(1).get(1).setText(value+"");
+                } else if(strv.equals("az")) {
+                    //System.out.println("az "+value);
+                    aTexts.get(1).get(2).setText(value+"");
+                }
+            }
+
+            /*for(int i = 0; i<astr.size(); i++) {
                 String str = astr.get(i);
+
+
+
+                /*
                 int value = -1;
 
                 if(str.contains("=")) {
@@ -107,7 +171,7 @@ public class ReadData extends TimerTask {
                         }
                     }
                 }
-            }
+            }*/
         }
 
         new Timer().schedule(new ReadData(ws,aTexts,ms,psCurves),ms);

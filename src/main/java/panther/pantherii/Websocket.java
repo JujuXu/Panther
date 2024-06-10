@@ -159,7 +159,7 @@ public class Websocket extends Thread {
                     }
 
                     data.add(msg.toString());
-                    //System.out.println(msg);
+                    //PantherInterface.sendLog(msg.toString());
                 }
             }
         }
@@ -208,7 +208,7 @@ public class Websocket extends Thread {
      * Checks and maintains the size of the data ArrayList.
      */
     private void checkSize() {
-        while(data.size() > 100) {
+        while(data.size() > 20) {
             data.remove(0);
         }
     }
