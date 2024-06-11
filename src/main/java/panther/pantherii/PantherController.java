@@ -152,6 +152,7 @@ public class PantherController {
         tSensors.add(accZ);
         tSensors.add(curr1);
         tSensors.add(curr2);
+        tSensors.add(textForce);
 
         /**
          * The ArrayList of QuadCurve instances representing the proximity sensors.
@@ -294,24 +295,6 @@ public class PantherController {
      */
     @FXML
     private ToggleButton backward;
-
-    /**
-     * Rectangle representing 100% battery level.
-     */
-    @FXML
-    private Rectangle battery100;
-
-    /**
-     * Rectangle representing 33% battery level.
-     */
-    @FXML
-    private Rectangle battery33;
-
-    /**
-     * Rectangle representing 66% battery level.
-     */
-    @FXML
-    private Rectangle battery66;
 
     /**
      * Circle representing the status of the robot.
@@ -514,11 +497,8 @@ public class PantherController {
     @FXML
     private ToggleButton speedUp;
 
-    /**
-     * Text representing the battery level.
-     */
     @FXML
-    private Text textBattery;
+    private Text textForce;
 
     /**
      * Text representing the front proximity sensor's distance.

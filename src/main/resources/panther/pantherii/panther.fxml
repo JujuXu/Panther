@@ -27,21 +27,6 @@
                   </Text>
                </children>
             </HBox>
-            <AnchorPane prefHeight="50.0" prefWidth="100.0">
-               <children>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="22.0" layoutX="14.0" layoutY="14.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" width="42.0" />
-                  <Rectangle fx:id="battery33" arcHeight="5.0" arcWidth="5.0" fill="LIME" height="18.0" layoutX="16.0" layoutY="16.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="12.0" />
-                  <Rectangle fx:id="battery66" arcHeight="5.0" arcWidth="5.0" fill="LIME" height="18.0" layoutX="29.0" layoutY="16.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="12.0" />
-                  <Rectangle fx:id="battery100" arcHeight="5.0" arcWidth="5.0" fill="LIME" height="18.0" layoutX="42.0" layoutY="16.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="12.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="12.0" layoutX="53.0" layoutY="19.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" width="6.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" height="10.0" layoutX="53.0" layoutY="20.0" stroke="BLACK" strokeType="INSIDE" width="5.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="20.0" layoutX="15.0" layoutY="15.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="40.0" />
-                  <Text fx:id="textBattery" fill="WHITE" layoutX="63.0" layoutY="30.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="100%">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font></Text>
-               </children>
-            </AnchorPane>
             <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="100.0" spacing="10.0">
                <children>
                   <Text fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="ACC X :">
@@ -49,7 +34,7 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Text>
-                  <Text fx:id="accX" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="0" textAlignment="RIGHT">
+                  <Text fx:id="accX" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="0°" textAlignment="RIGHT">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -63,7 +48,7 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Text>
-                  <Text fx:id="accY" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="0">
+                  <Text fx:id="accY" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="0°">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -77,7 +62,7 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Text>
-                  <Text fx:id="accZ" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="0">
+                  <Text fx:id="accZ" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="0°">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -106,6 +91,20 @@
                      </font>
                   </Text>
                   <Text fx:id="curr2" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="0 A">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="200.0" spacing="5.0">
+               <children>
+                  <Text fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.5" text="CLAMP FORCE :">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="textForce" fill="LIME" stroke="LIME" strokeType="OUTSIDE" strokeWidth="0.0" text="OK">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>

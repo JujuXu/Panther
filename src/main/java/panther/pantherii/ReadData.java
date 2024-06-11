@@ -4,9 +4,13 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.QuadCurve;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * This class represents a task that reads data from the WebSocket connection.
@@ -55,123 +59,89 @@ public class ReadData extends TimerTask {
         ArrayList<String> astr = ws.getData();
 
         if(!astr.isEmpty()) {
-            String strv;
-            double value;
+            String strv = "";
+            double value = Double.NaN;
+
+            String pattern = "([a-zA-Z]+)(-?\\d+(\\.\\d+)?)";
+            Pattern r = Pattern.compile(pattern);
 
             for(String s : astr) {
-                value = Double.NaN;
-                strv = "";
+                Matcher m = null;
+                try {
+                    m = r.matcher(s);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
-                for(int i=0;i<s.length()-1;i++) {
-                    try {
-                        value = Double.parseDouble(s.substring(i));
-                    } catch (NumberFormatException e) {
+                if(m == null) {
+                    continue;
+                }
 
-                    }
-
-                    if(!Double.isNaN(value)) {
-                        strv = s.substring(0,i);
-                    }
+                if(m.find()) {
+                    strv = m.group(1);
+                    value = Double.parseDouble(m.group(2));
                 }
 
                 if(strv.equals("l")) {
-                    //System.out.println("l"+value);
+
                     aTexts.get(0).get(1).setText(value+"");
+
                     if(value < 15) {
                         psCurves.get(1).setFill(Paint.valueOf("RED"));
                     } else {
                         psCurves.get(1).setFill(Paint.valueOf("rgba(255, 255, 255, 0)"));
                     }
+
                 } else if(strv.equals("f")) {
-                    //System.out.println("f"+value);
+
                     aTexts.get(0).get(0).setText(value+"");
+
                     if(value < 15) {
                         psCurves.get(0).setFill(Paint.valueOf("RED"));
                     } else {
                         psCurves.get(0).setFill(Paint.valueOf("rgba(255, 255, 255, 0)"));
                     }
+
                 } else if(strv.equals("r")) {
-                    //System.out.println("r"+value);
+
                     aTexts.get(0).get(2).setText(value+"");
+
                     if(value < 15) {
                         psCurves.get(2).setFill(Paint.valueOf("RED"));
                     } else {
                         psCurves.get(2).setFill(Paint.valueOf("rgba(255, 255, 255, 0)"));
                     }
+
                 } else if(strv.equals("ca")) {
-                    //System.out.println("ca"+value);
+
                     aTexts.get(1).get(3).setText(value+" A");
+
                 } else if(strv.equals("cb")) {
-                    //System.out.println("cb"+value);
+
                     aTexts.get(1).get(4).setText(value+" A");
+
                 } else if(strv.equals("ax")) {
-                    //System.out.println("ax"+value);
-                    aTexts.get(1).get(0).setText(value+"");
+
+                    aTexts.get(1).get(0).setText(String.format("%.3f", (value*90))+"°");
+
                 } else if(strv.equals("ay")) {
-                    //System.out.println("ay"+value);
-                    aTexts.get(1).get(1).setText(value+"");
+                    System.out.println(s);
+                    aTexts.get(1).get(1).setText(String.format("%.3f", (value*90))+"°");
+
                 } else if(strv.equals("az")) {
-                    //System.out.println("az "+value);
-                    aTexts.get(1).get(2).setText(value+"");
+
+                    aTexts.get(1).get(2).setText(String.format("%.3f", (value*90))+"°");
+
+                } else if(strv.equals("wf")) {
+                    if(value == 1) {
+                        aTexts.get(1).get(5).setText("WARNING");
+                        aTexts.get(1).get(5).setFill(Paint.valueOf("rgba(255, 0, 0, 1)"));
+                    } else {
+                        aTexts.get(1).get(5).setText("OK");
+                        aTexts.get(1).get(5).setFill(Paint.valueOf("rgba(0, 255, 0, 1)"));
+                    }
                 }
             }
-
-            /*for(int i = 0; i<astr.size(); i++) {
-                String str = astr.get(i);
-
-
-
-                /*
-                int value = -1;
-
-                if(str.contains("=")) {
-                    fstr = str.substring(str.indexOf("=")+1);
-                    try {
-                        value = Integer.parseInt(fstr);
-                    } catch (NumberFormatException e) {
-                        continue;
-                    }
-
-                    if(str.contains("PS_")) {
-                        if(str.contains("FRONT")) {
-                            aTexts.get(0).get(0).setText(value+" cm");
-                            if(value < 15) {
-                                psCurves.get(0).setFill(Paint.valueOf("RED"));
-                            } else {
-                                psCurves.get(0).setFill(Paint.valueOf("rgba(255, 255, 255, 0)"));
-                            }
-                        } else if(str.contains("LEFT")) {
-                            aTexts.get(0).get(1).setText(value+" cm");
-                            if(value < 15) {
-                                psCurves.get(1).setFill(Paint.valueOf("RED"));
-                            } else {
-                                psCurves.get(1).setFill(Paint.valueOf("rgba(255, 255, 255, 0)"));
-                            }
-                        } else if(str.contains("RIGHT")) {
-                            aTexts.get(0).get(2).setText(value+" cm");
-                            if(value < 15) {
-                                psCurves.get(2).setFill(Paint.valueOf("RED"));
-                            } else {
-                                psCurves.get(2).setFill(Paint.valueOf("rgba(255, 255, 255, 0)"));
-                            }
-                        }
-                    } else if(str.contains("ACC_")) {
-                        if(str.contains("X")) {
-                            aTexts.get(1).get(0).setText(value+"");
-                        } else if(str.contains("Y")) {
-                            aTexts.get(1).get(1).setText(value+"");
-                        } else if(str.contains("Z")) {
-                            aTexts.get(1).get(2).setText(value+"");
-                        }
-                    } else if (str.contains("CURR_")) {
-                        if(str.contains("A")) {
-                            aTexts.get(1).get(3).setText(value+"");
-                        } else if(str.contains("B")) {
-                            aTexts.get(1).get(4).setText(value+"");
-                        }
-                    }
-                }
-            }*/
         }
 
         new Timer().schedule(new ReadData(ws,aTexts,ms,psCurves),ms);
